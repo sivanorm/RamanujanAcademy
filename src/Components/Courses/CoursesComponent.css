@@ -1,0 +1,12 @@
+.courses_div {
+  /* background-color: aliceblue; */
+  padding: 60px 0px;
+}
+.my-cources-list {
+  box-shadow: 0px 0px 8px #9f9f9f;
+  min-height: 150px;
+  border-radius: 4px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
