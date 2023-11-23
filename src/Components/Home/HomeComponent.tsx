@@ -95,6 +95,7 @@ function Home() {
               <li>Digital classes</li>
               <li>Online & Offline Training</li>
               <li>Regular exams</li>
+              <li>Regular Practices</li>
               <li>Individual care for development</li>
               <li>
                 CBSE, ICSE, state syllabus with iit, neet & emcet coaching
