@@ -1,0 +1,159 @@
+:root {
+  --header_bg_color: #56566a;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.my-navigation ul {
+  margin: 0px;
+  padding: 0px;
+  list-style-type: none;
+  background-color: #000000;
+  display: flex;
+}
+.my-title {
+  margin-bottom: 0px;
+}
+.my-navigation ul li {
+  min-width: 120px;
+  padding: 5px 15px;
+  color: #ffffff;
+}
+
+.main_title {
+  background-color: var(--header_bg_color);
+  box-shadow: 0px 0px 8px black;
+  color: #fff;
+  padding: 12px;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.nav_div {
+  background-color: var(--header_bg_color);
+  color: #fff;
+  padding: 2px;
+  position: relative;
+  width: 100%;
+}
+
+.jb_nav {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  list-style-type: none;
+  justify-content: end;
+  font-family: cursive;
+}
+
+.jb_nav li {
+  /* min-width: 100px; */
+  padding: 5px 20px;
+  text-align: center;
+}
+
+.jb_nav li:hover {
+  cursor: pointer;
+  color: #ffd400;
+}
+
+.right_arrow {
+  visibility: hidden;
+  transition: transform 0.2s;
+}
+
+.jb_nav li:hover .right_arrow {
+  visibility: visible;
+  transform: scale3d(1.5);
+}
+
+.my-cources-list,
+.my-demo-list {
+  box-shadow: 0px 0px 8px #9f9f9f;
+  min-height: 150px;
+  border-radius: 4px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.my-cources-list {
+  background: linear-gradient(
+    to top right,
+    #bbbbc3 30%,
+    #e5e8ee 60%,
+    #d1d1d5 100%
+  );
+}
+.my-demo-list {
+  background: linear-gradient(to left top, #d7ffd7 30%, #ffffd8 100%);
+}
+.demos_div {
+  background-color: #bbbbc8;
+}
+.all-courses-btn {
+  text-align: center;
+  margin-top: 50px;
+}
+.pl-5 {
+  padding-left: 3rem !important;
+}
+
+/* .all-courses-btn button{
+  background: #0d1077;
+  border-radius: 50px;
+}
+.demo-btn button{
+  background: #890300;
+  border-radius: 50px;
+} */
+button {
+  border: 0px;
+  outline: none;
+  padding: 5px 20px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #474758;
+  border-radius: 50px !important;
+}
+
+.demos_div {
+  background-color: #f9e8f6;
+  padding: 60px 0px;
+}
+.bg_img_div {
+  height: 450px;
+  background: linear-gradient(to top left, #bdbdca 10%, #fff 100%);
+}
+.App-header {
+  position: sticky;
+  top: 0;
+}
+.bg_img {
+  padding-right: 50px !important;
+}
+.bg_img img {
+  width: 100%;
+}
+
+.facilities_list {
+  margin-top: 20px;
+  font-weight: bold;
+  list-style-type: disclosure-closed;
+}
+.facilities_list li {
+  padding: 5px;
+}
+.menu_nav_active {
+  color: #ffd400 !important;
+}
+
+.courses_div {
+  /* background-color: aliceblue; */
+  padding: 60px 0px;
+}
