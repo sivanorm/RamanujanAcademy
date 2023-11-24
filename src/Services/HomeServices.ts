@@ -9,6 +9,7 @@ export const HomeServices = {
       { name: "About", id: "abt" },
       { name: "Contact", id: "cnt" },
       { name: "Others", id: "others" },
+      { name: "Others", id: "Prasanth" },
     ];
   },
   GetDemos: () => {
