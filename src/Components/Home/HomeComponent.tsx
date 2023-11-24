@@ -1,57 +1,7 @@
-import { useState } from "react";
-import { HomeServices } from "../../Services/HomeServices";
 import CourseDemo from "../Demos/DemosComponent";
 import myimg from "./../../assets/images/students_prev_ui.png";
-import CoursesComponent from "./../Courses/CoursesComponent";
 import "./HomeComponent.css";
-import Gallery from "../Gallery/GalleryComponent";
-
-const myNavItems = HomeServices.GetNavTabs();
-
 export default function HomeComponent() {
-  return <Default></Default>;
-}
-
-function Default() {
-  const [activeNav, setActiveNav] = useState("hm");
-  const listItems = myNavItems.map((product) => (
-    <li
-      key={product.id}
-      id={product.id}
-      className={activeNav == product.id ? "menu_nav_active" : "menu_nav"}
-      onClick={() => {
-        setActiveNav(product.id);
-      }}
-    >
-      {product.name}
-    </li>
-  ));
-  var content = <></>;
-
-  if (activeNav == "hm") {
-    content = (
-      <>
-        <Home></Home>
-        <CourseDemo></CourseDemo>
-      </>
-    );
-  } else if (activeNav == "crs")
-    content = <CoursesComponent></CoursesComponent>;
-  else if (activeNav == "gl") content = <Gallery></Gallery>;
-  return (
-    <div className="App">
-      <header className="App-header">
-        <MyHeader></MyHeader>
-        <div className="nav_div">
-          <ul className="jb_nav">{listItems}</ul>
-        </div>
-      </header>
-      {content}
-    </div>
-  );
-}
-
-function Home() {
   return (
     <>
       <div className="container-fluid">
@@ -63,7 +13,6 @@ function Home() {
               <li>Digital classes</li>
               <li>Online & Offline Training</li>
               <li>Regular exams</li>
-              <li>Regular Practices</li>
               <li>Individual care for development</li>
               <li>
                 CBSE, ICSE, state syllabus with iit, neet & emcet coaching
@@ -71,21 +20,11 @@ function Home() {
             </ul>
           </div>
           <div className="col-md-6 bg_img">
-            <BgImg />
+            <img src={myimg} />
           </div>
         </div>
       </div>
+      <CourseDemo></CourseDemo>
     </>
   );
-}
-function MyHeader() {
-  return (
-    <div className="main_title">
-      <h1 className="my-title">Ramanujan Academy</h1>
-    </div>
-  );
-}
-
-function BgImg() {
-  return <img src={myimg} />;
 }
