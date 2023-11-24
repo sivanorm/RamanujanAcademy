@@ -10,6 +10,10 @@ export const HomeServices = {
       { name: "Others", id: "others" },
     ];
   },
+  GetGallery: () => {
+    debugger;
+    return apiService.get("movies/family");
+  },
   GetDemos: () => {
     return apiService.get("movies/classic");
   },

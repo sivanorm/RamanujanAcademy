@@ -4,6 +4,7 @@ import CourseDemo from "../Demos/DemosComponent";
 import myimg from "./../../assets/images/students_prev_ui.png";
 import CoursesComponent from "./../Courses/CoursesComponent";
 import "./HomeComponent.css";
+import Gallery from "../Gallery/GalleryComponent";
 
 const myNavItems = HomeServices.GetNavTabs();
 
@@ -36,6 +37,7 @@ function Default() {
     );
   } else if (activeNav == "crs")
     content = <CoursesComponent></CoursesComponent>;
+  else if (activeNav == "gl") content = <Gallery></Gallery>;
   return (
     <div className="App">
       <header className="App-header">
