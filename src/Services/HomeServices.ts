@@ -1,4 +1,3 @@
-import { Observable } from "rxjs";
 import apiService from "./Services";
 export const HomeServices = {
   GetNavTabs: () => {
@@ -12,12 +11,6 @@ export const HomeServices = {
     ];
   },
   GetDemos: () => {
-    // return [
-    //   { demoname: "Demo 1", demoid: "hm" },
-    //   { demoname: "Demo 2", demoid: "gl" },
-    //   { demoname: "Demo 3", demoid: "crs2" },
-    //   { demoname: "Demo 4", demoid: "abt2" },
-    // ];
     return apiService.get("movies/classic");
   },
   GetCourses: () => {

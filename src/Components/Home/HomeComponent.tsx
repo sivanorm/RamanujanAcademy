@@ -6,7 +6,6 @@ import CoursesComponent from "./../Courses/CoursesComponent";
 import "./HomeComponent.css";
 
 const myNavItems = HomeServices.GetNavTabs();
-const demos = HomeServices.GetDemos();
 
 export default function HomeComponent() {
   return <Default></Default>;
