@@ -5,7 +5,7 @@ import {
   ReactPortal,
 } from "react";
 
-function Button(props: {
+function AppButton(props: {
   name:
     | string
     | number
@@ -18,4 +18,5 @@ function Button(props: {
 }) {
   return <button>{props.name}</button>;
 }
-export default Button;
+
+export default AppButton;

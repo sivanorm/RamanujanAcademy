@@ -1,14 +1,8 @@
-import $ from "jquery";
-import {
-  JSXElementConstructor,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-  useState,
-} from "react";
+import { useState } from "react";
 import { HomeServices } from "../../Services/HomeServices";
+import CourseDemo from "../Demos/DemosComponent";
 import myimg from "./../../assets/images/students_prev_ui.png";
-import Courses from "./../Courses/CoursesComponent";
+import CoursesComponent from "./../Courses/CoursesComponent";
 import "./HomeComponent.css";
 
 const myNavItems = HomeServices.GetNavTabs();
@@ -41,13 +35,8 @@ function Default() {
         <CourseDemo></CourseDemo>
       </>
     );
-  } else if (activeNav == "crs") {
-    content = (
-      <>
-        <CoursesComponent></CoursesComponent>
-      </>
-    );
-  }
+  } else if (activeNav == "crs")
+    content = <CoursesComponent></CoursesComponent>;
   return (
     <div className="App">
       <header className="App-header">
@@ -88,77 +77,12 @@ function Home() {
     </>
   );
 }
-function CoursesComponent() {
-  return (
-    <div className="courses_div">
-      <div className="text-center mb-5">
-        <h1>Our Courses</h1>
-      </div>
-      <Courses></Courses>
-      <div className="all-courses-btn">
-        <MyButton name="See All Courses"></MyButton>
-      </div>
-    </div>
-  );
-}
-
-function CourseDemo() {
-  return (
-    <div className="demos_div">
-      <div className="text-center mb-5">
-        <h1>Our Demo's</h1>
-      </div>
-      <Demos></Demos>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="demo-btn col-md-4 offset-4 d-flex justify-content-evenly text-center mt-5">
-            <MyButton name="Go for Offline"></MyButton>
-            <MyButton name="Go for Online"></MyButton>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Demos() {
-  const demolist = demos.map((d) => (
-    <div className="col-md-3 p-2" key={d.demoid}>
-      <div className="my-demo-list">{d.demoname}</div>
-    </div>
-  ));
-
-  return (
-    <div className="container">
-      <div className="row">{demolist}</div>
-    </div>
-  );
-}
-
 function MyHeader() {
   return (
     <div className="main_title">
       <h1 className="my-title">Ramanujan Academy</h1>
     </div>
   );
-}
-
-function MyButton(props: {
-  name:
-    | string
-    | number
-    | boolean
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | Iterable<ReactNode>
-    | ReactPortal
-    | null
-    | undefined;
-}) {
-  return <button onClick={SeeAllCoursesClick}>{props.name}</button>;
-}
-
-function SeeAllCoursesClick(this: any) {
-  $(this).closest(".App .nav_div").find("li");
 }
 
 function BgImg() {

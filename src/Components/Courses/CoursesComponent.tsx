@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { HomeServices } from "../../Services/HomeServices";
-import "./../Home/HomeComponent.css";
+import AppButton from "../Buttons/ButtonComponent";
 
 function Courses() {
   const [data, setData] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -19,6 +18,7 @@ function Courses() {
   const coursesCards = data?.map((pro: any) => (
     <div className="col-md-3 p-2" key={pro?.id}>
       <div className="my-courses-list">{pro?.title}</div>
+      {/* <img src={pro?.posterURL} /> */}
     </div>
   ));
 
@@ -29,4 +29,17 @@ function Courses() {
   );
 }
 
-export default Courses;
+function CoursesComponent() {
+  return (
+    <div className="courses_div">
+      <div className="text-center mb-5">
+        <h1>Our Courses</h1>
+      </div>
+      <Courses></Courses>
+      <div className="all-courses-btn">
+        <AppButton name="See All Courses"></AppButton>
+      </div>
+    </div>
+  );
+}
+export default CoursesComponent;
