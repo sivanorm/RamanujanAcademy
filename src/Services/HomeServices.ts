@@ -20,18 +20,6 @@ export const HomeServices = {
     ];
   },
   GetCourses: () => {
-    const courses = [
-      { crsname: "Course 1", crsid: "hm" },
-      { crsname: "Course 2", crsid: "gl" },
-      { crsname: "Course 3", crsid: "crs" },
-      { crsname: "Course 4", crsid: "abt" },
-      { crsname: "Course 5", crsid: "cnt" },
-      { crsname: "Course 6", crsid: "crs1" },
-      { crsname: "Course 7", crsid: "abt1" },
-      { crsname: "Course 8", crsid: "cnt1" },
-    ];
-    var data = apiService.get("movies/animation");
-    debugger;
-    return courses;
+    return apiService.get("movies/animation");
   },
 };

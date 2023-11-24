@@ -1,20 +1,17 @@
 import $ from "jquery";
-import "./HomeComponent.css";
-import { HomeServices } from "../../Services/HomeServices";
-
 import {
   JSXElementConstructor,
   ReactElement,
   ReactNode,
   ReactPortal,
-  useEffect,
   useState,
 } from "react";
+import { HomeServices } from "../../Services/HomeServices";
 import myimg from "./../../assets/images/students_prev_ui.png";
-import { Observable } from "rxjs";
+import Courses from "./../Courses/CoursesComponent";
+import "./HomeComponent.css";
 
 const myNavItems = HomeServices.GetNavTabs();
-const mycources = HomeServices.GetCourses();
 const demos = HomeServices.GetDemos();
 
 export default function HomeComponent() {
@@ -47,7 +44,7 @@ function Default() {
   } else if (activeNav == "crs") {
     content = (
       <>
-        <Courses></Courses>
+        <CoursesComponent></CoursesComponent>
       </>
     );
   }
@@ -91,13 +88,13 @@ function Home() {
     </>
   );
 }
-function Courses() {
+function CoursesComponent() {
   return (
     <div className="courses_div">
       <div className="text-center mb-5">
         <h1>Our Courses</h1>
       </div>
-      <MyCourses></MyCourses>
+      <Courses></Courses>
       <div className="all-courses-btn">
         <MyButton name="See All Courses"></MyButton>
       </div>
@@ -120,31 +117,6 @@ function CourseDemo() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function MyCourses() {
-  const [data, setData] = useState("");
-  const getData = async () => {
-    const resp = await fetch("https://api.sampleapis.com/movies/animation");
-    const json = await resp.json();
-    setData(json);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-  debugger;
-  console.log(data);
-  const listItems1 = HomeServices.GetCourses().map((pro) => (
-    <div className="col-md-3 p-2" key={pro?.crsid}>
-      <div className="my-cources-list">{pro?.crsname}</div>
-    </div>
-  ));
-  return (
-    <div className="container">
-      <div className="row my-cources">{listItems1}</div>
     </div>
   );
 }
