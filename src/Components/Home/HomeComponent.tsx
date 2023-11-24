@@ -16,6 +16,7 @@ const myNavItems = [
   { name: "Courses", id: "crs" },
   { name: "About", id: "abt" },
   { name: "Contact", id: "cnt" },
+  { name: "Others", id: "others" },
 ];
 
 const mycources = [
