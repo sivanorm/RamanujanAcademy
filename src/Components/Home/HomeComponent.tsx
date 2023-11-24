@@ -1,41 +1,21 @@
 import $ from "jquery";
 import "./HomeComponent.css";
+import { HomeServices } from "../../Services/HomeServices";
 
 import {
   JSXElementConstructor,
   ReactElement,
   ReactNode,
   ReactPortal,
+  useEffect,
   useState,
 } from "react";
 import myimg from "./../../assets/images/students_prev_ui.png";
+import { Observable } from "rxjs";
 
-const myNavItems = [
-  { name: "Home", id: "hm" },
-  { name: "Gallery", id: "gl" },
-  { name: "Courses", id: "crs" },
-  { name: "About", id: "abt" },
-  { name: "Contact", id: "cnt" },
-  { name: "Others", id: "others" },
-];
-
-const mycources = [
-  { crsname: "Course 1", crsid: "hm" },
-  { crsname: "Course 2", crsid: "gl" },
-  { crsname: "Course 3", crsid: "crs" },
-  { crsname: "Course 4", crsid: "abt" },
-  { crsname: "Course 5", crsid: "cnt" },
-  { crsname: "Course 6", crsid: "crs1" },
-  { crsname: "Course 7", crsid: "abt1" },
-  { crsname: "Course 8", crsid: "cnt1" },
-];
-
-const demos = [
-  { demoname: "Demo 1", demoid: "hm" },
-  { demoname: "Demo 2", demoid: "gl" },
-  { demoname: "Demo 3", demoid: "crs2" },
-  { demoname: "Demo 4", demoid: "abt2" },
-];
+const myNavItems = HomeServices.GetNavTabs();
+const mycources = HomeServices.GetCourses();
+const demos = HomeServices.GetDemos();
 
 export default function HomeComponent() {
   return <Default></Default>;
@@ -145,12 +125,23 @@ function CourseDemo() {
 }
 
 function MyCourses() {
-  const listItems1 = mycources.map((pro) => (
-    <div className="col-md-3 p-2" key={pro.crsid}>
-      <div className="my-cources-list">{pro.crsname}</div>
+  const [data, setData] = useState("");
+  const getData = async () => {
+    const resp = await fetch("https://api.sampleapis.com/movies/animation");
+    const json = await resp.json();
+    setData(json);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+  debugger;
+  console.log(data);
+  const listItems1 = HomeServices.GetCourses().map((pro) => (
+    <div className="col-md-3 p-2" key={pro?.crsid}>
+      <div className="my-cources-list">{pro?.crsname}</div>
     </div>
   ));
-
   return (
     <div className="container">
       <div className="row my-cources">{listItems1}</div>
