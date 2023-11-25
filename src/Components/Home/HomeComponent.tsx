@@ -1,6 +1,7 @@
 import CourseDemo from "../Demos/DemosComponent";
 import myimg from "./../../assets/images/students_prev_ui.png";
 import "./HomeComponent.css";
+
 export default function HomeComponent() {
   return (
     <>
