@@ -4,3 +4,6 @@
 .profile_icon svg {
   font-size: 40px;
 }
+.App-header{
+  z-index: 1;
+}
