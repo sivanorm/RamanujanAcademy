@@ -153,6 +153,11 @@ button {
   color: #ffd400 !important;
 }
 
+.menu_nav {
+  color: white;
+  text-decoration: none;
+}
+
 .courses_div {
   /* background-color: aliceblue; */
   padding: 60px 0px;

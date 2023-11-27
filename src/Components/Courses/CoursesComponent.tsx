@@ -1,6 +1,6 @@
 import { Avatar, Rating, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { HomeServices } from "../../Services/HomeServices";
+import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
 import "./CoursesComponent.css";
 export default function CoursesComponent() {
@@ -47,7 +47,7 @@ function Courses() {
                   <div className="thumbnail_div"></div>
                   <div className="title_div">
                     <div className="avatar_div">
-                      <Avatar sx={{ bgcolor: "deepOrange"[500] }}>K</Avatar>
+                      <Avatar sx={{ backgroundColor: "#ff4500" }}>K</Avatar>
                     </div>
                     <div className="rating_div">
                       <p className="course_title">{pro?.title}</p>

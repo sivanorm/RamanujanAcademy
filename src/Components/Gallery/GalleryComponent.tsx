@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { HomeServices } from "../../Services/HomeServices";
+import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
 
 function Gallery() {
