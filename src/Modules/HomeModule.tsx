@@ -5,7 +5,14 @@ import HomeComponent from "../Components/Home/HomeComponent";
 export const components = [<HomeComponent />, <CoursesComponent />];
 
 export const MenuTabs = [
-  { id: 1, index: 0, name: "Home", path: "", component: <HomeComponent /> },
+  {
+    id: 1,
+    index: 0,
+    name: "Home",
+    path: "",
+    isReqAuth: false,
+    component: <HomeComponent />,
+  },
   {
     id: 2,
     index: 1,
@@ -19,7 +26,7 @@ export const MenuTabs = [
     index: 2,
     name: "Courses",
     path: "courses",
-    isReqAuth: false,
+    isReqAuth: true,
     component: <CoursesComponent />,
   },
   {

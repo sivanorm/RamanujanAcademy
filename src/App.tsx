@@ -1,12 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { MenuTabs } from "./Modules/HomeModule";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import DraggableDialog from "./Components/login/login";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FireAuthRequired from "./Authentications/firebase/Context/FireAuthRequired";
 import { signInUser } from "./Authentications/firebase/firebase";
+import { FireBaseAuthContext } from "./Authentications/firebase/Context/firebase-auth-context";
 const App = () => {
+  const navigate = useNavigate();
+
+  const { currentUser, signOut } = useContext(FireBaseAuthContext);
   const defaultRoute = MenuTabs.find((tab) => tab.index == 0);
   const [activeTab, setActiveTab] = useState(defaultRoute?.index);
   useEffect(() => {
@@ -26,6 +30,10 @@ const App = () => {
     };
     handleSubmit();
   }, []);
+
+  useEffect(() => {
+    if (!currentUser) setActiveTab(0);
+  }, [currentUser]);
   return (
     <div className="App">
       <header className="App-header">
@@ -50,22 +58,27 @@ const App = () => {
                       : "menu_nav"
                   }
                   onClick={() => {
-                    setActiveTab(tab.index);
+                    if (!currentUser) {
+                      //if Log out Add code
+                      setActiveTab(0);
+                    } else setActiveTab(tab.index);
                   }}
                 >
                   {tab.name}
                 </NavLink>
               </li>
             ))}
+            <li onClick={signOut}>Log Out</li>
           </ul>
         </div>
       </header>
       <Routes>
         {MenuTabs.map((tab) =>
           tab.isReqAuth ? (
-            <FireAuthRequired>
-              <Route path={tab.path} element={tab.component}></Route>
-            </FireAuthRequired>
+            <Route
+              path={tab.path}
+              element={<FireAuthRequired>{tab.component}</FireAuthRequired>}
+            ></Route>
           ) : (
             <Route path={tab.path} element={tab.component}></Route>
           )
