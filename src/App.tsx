@@ -6,7 +6,9 @@ import HomeComponent from "./Components/Home/HomeComponent";
 import { HomeServices } from "./Services/HomeServices";
 // import LoginComponent from "./Components/login/login";
 import "./App.css";
+// import CurrentComponent from "./Components/currentComponent/currentcomponent";
 import DraggableDialog from "./Components/login/login";
+import CurrentComponent from "./Components/currentComponent/currentcomponent";
 const App = () => {
   const [activeNav, setActiveNav] = useState("hm");
   return (
@@ -16,7 +18,7 @@ const App = () => {
           <h1 className="my-title">
             Ramanujan Academy
             <span className="profile_icon">
-              <DraggableDialog />
+              <DraggableDialog />              
             </span>
           </h1>
         </div>
@@ -39,7 +41,9 @@ const App = () => {
       </header>
       {(activeNav == "hm" && <HomeComponent></HomeComponent>) ||
         (activeNav == "crs" && <CoursesComponent></CoursesComponent>) ||
-        (activeNav == "gl" && <GalleryComponent></GalleryComponent>)}
+        (activeNav == "gl" && <GalleryComponent></GalleryComponent>) ||
+        (activeNav == "abt" && <CurrentComponent></CurrentComponent>)
+        }
     </div>
   );
 };
