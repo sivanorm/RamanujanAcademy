@@ -9,6 +9,8 @@ import "./App.css";
 // import CurrentComponent from "./Components/currentComponent/currentcomponent";
 import DraggableDialog from "./Components/login/login";
 import CurrentComponent from "./Components/currentComponent/currentcomponent";
+import Signin from "./Components/signin/signin";
+import ExampleDialog from "./Components/signin/signin";
 const App = () => {
   const [activeNav, setActiveNav] = useState("hm");
   return (
@@ -42,7 +44,8 @@ const App = () => {
       {(activeNav == "hm" && <HomeComponent></HomeComponent>) ||
         (activeNav == "crs" && <CoursesComponent></CoursesComponent>) ||
         (activeNav == "gl" && <GalleryComponent></GalleryComponent>) ||
-        (activeNav == "abt" && <CurrentComponent></CurrentComponent>)
+        (activeNav == "abt" && <CurrentComponent></CurrentComponent>) ||
+        (activeNav == "cnt" && <ExampleDialog/>)
         }
     </div>
   );
