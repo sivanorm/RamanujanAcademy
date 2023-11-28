@@ -91,7 +91,8 @@
   );
 }
 .my-demo-list {
-  background: linear-gradient(to left top, #d7ffd7 30%, #ffffd8 100%);
+  /* background: linear-gradient(to left top, #d7ffd7 30%, #ffffd8 100%); */
+  background: linear-gradient(to left top, #edeeee 30%, #e0e0e0 100%);
 }
 .demos_div {
   background-color: #bbbbc8;

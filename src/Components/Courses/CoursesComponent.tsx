@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
 import "./CoursesComponent.css";
+import CurrentComponent from "../currentComponent/currentcomponent";
+import { BrowserRouter, Route } from "react-router-dom";
 export default function CoursesComponent() {
   return (
     <div className="courses_div">
@@ -16,6 +18,13 @@ export default function CoursesComponent() {
     </div>
   );
 }
+
+function handleClick(){
+  <BrowserRouter>
+    <Route Component={CurrentComponent}></Route>
+  </BrowserRouter>
+}
+
 function Courses() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,6 +41,7 @@ function Courses() {
     fetchData();
   }, []);
 
+
   return (
     <div className="container">
       <div className="row my-courses">
@@ -42,7 +52,7 @@ function Courses() {
               </div>
             ))
           : data?.map((pro: any) => (
-              <div className="col-md-3 p-2" key={pro?.id}>
+              <div className="col-md-3 p-2" key={pro?.id} onClick={handleClick}>
                 <div className="my-courses-list container-fluid">
                   <div className="thumbnail_div"></div>
                   <div className="title_div">

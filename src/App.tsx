@@ -2,11 +2,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { MenuTabs } from "./Modules/HomeModule";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
+// import CurrentComponent from "./Components/currentComponent/currentcomponent";
 import DraggableDialog from "./Components/login/login";
-import { useContext, useEffect, useState } from "react";
-import FireAuthRequired from "./Authentications/firebase/Context/FireAuthRequired";
-import { signInUser } from "./Authentications/firebase/firebase";
-import { FireBaseAuthContext } from "./Authentications/firebase/Context/firebase-auth-context";
 const App = () => {
   const navigate = useNavigate();
 
@@ -72,22 +69,9 @@ const App = () => {
           </ul>
         </div>
       </header>
-      <Routes>
-        {MenuTabs.map((tab) =>
-          tab.isReqAuth ? (
-            <Route
-              path={tab.path}
-              element={<FireAuthRequired>{tab.component}</FireAuthRequired>}
-            ></Route>
-          ) : (
-            <Route path={tab.path} element={tab.component}></Route>
-          )
-        )}
-        <Route
-          path="*"
-          element={defaultRoute ? defaultRoute.component : null}
-        />
-      </Routes>
+      {(activeNav == "hm" && <HomeComponent></HomeComponent>) ||
+        (activeNav == "crs" && <CoursesComponent></CoursesComponent>) ||
+        (activeNav == "gl" && <GalleryComponent></GalleryComponent>)}
     </div>
   );
 };
