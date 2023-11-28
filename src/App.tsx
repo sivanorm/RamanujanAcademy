@@ -1,27 +1,24 @@
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { Avatar } from "@mui/material";
+import { deepOrange } from "@mui/material/colors";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext, useEffect, useState } from "react";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import FireAuthRequired from "./Authentications/firebase/Context/FireAuthRequired";
 import { FireBaseAuthContext } from "./Authentications/firebase/Context/firebase-auth-context";
-import { default as LogIn } from "./Components/login/login";
-import { MenuTabs, components } from "./Modules/HomeModule";
-import { Avatar } from "@mui/material";
-import { deepOrange } from "@mui/material/colors";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import HomeComponent from "./Components/Home/HomeComponent";
+import { MenuTabs, components } from "./Modules/HomeModule";
 
 const App = () => {
   const navigate = useNavigate();
   const { currentUser, signOut } = useContext(FireBaseAuthContext);
   const defaultRoute = MenuTabs.find((tab) => tab.index == 0);
   const [activeTab, setActiveTab] = useState(defaultRoute?.index);
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/login");
-    }
-  }, [currentUser]);
+  const handleSignOut = () => {
+    signOut();
+    navigate("/");
+  };
   return (
     <div className="App">
       <header className="App-header">
@@ -67,11 +64,17 @@ const App = () => {
               </li>
             ))}
             {currentUser ? (
-              <li onClick={signOut}>
+              <li onClick={handleSignOut}>
                 <PowerSettingsNewIcon />
               </li>
             ) : (
-              ""
+              <li
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Login
+              </li>
             )}
           </ul>
         </div>
@@ -87,7 +90,7 @@ const App = () => {
             <Route path={item.path} element={item.component}></Route>
           )
         )}
-        <Route path="*" element={<LogIn />} />
+        <Route path="*" element={<HomeComponent />} />
       </Routes>
     </div>
   );

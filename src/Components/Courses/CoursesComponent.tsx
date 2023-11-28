@@ -4,7 +4,7 @@ import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
 import "./CoursesComponent.css";
 import CurrentComponent from "../CourseModule/Course";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, useNavigate } from "react-router-dom";
 export default function CoursesComponent() {
   return (
     <div className="courses_div">
@@ -19,13 +19,11 @@ export default function CoursesComponent() {
   );
 }
 
-function handleClick() {
-  <BrowserRouter>
-    <Route Component={CurrentComponent}></Route>
-  </BrowserRouter>;
-}
-
 function Courses() {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/course");
+  };
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
