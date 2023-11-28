@@ -1,14 +1,14 @@
-import "./login.css";
-
-import * as React from "react";
+import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper, { PaperProps } from "@mui/material/Paper";
+import React, { Fragment, useState } from "react";
 import Draggable from "react-draggable";
-import { Avatar, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { signInUser } from "../../Authentications/firebase/firebase";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -21,20 +21,39 @@ function PaperComponent(props: PaperProps) {
   );
 }
 
-export default function DraggableDialog() {
-  const [open, setOpen] = React.useState(false);
+export default function LogIn() {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(true);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // Now you can use 'username' and 'password' in your signInUser function
+      debugger;
+      const userCredential = await signInUser(username, password);
+      if (userCredential) {
+        navigate("/");
+      } else alert("Invalid Credentials");
+    } catch (error: any) {
+      alert("User Sign In Failed due to Error");
+    }
   };
 
   const handleClose = () => {
     setOpen(false);
+    navigate("/");
   };
-
   return (
-    <React.Fragment>
-      <Avatar onClick={handleClickOpen}>K</Avatar>
+    <Fragment>
       <Dialog
         fullWidth={true}
         maxWidth={"md"}
@@ -55,6 +74,8 @@ export default function DraggableDialog() {
                   id="outlined-basic"
                   label="User Name"
                   variant="outlined"
+                  value={username}
+                  onChange={handleUsernameChange}
                 />
               </div>
             </div>
@@ -64,6 +85,9 @@ export default function DraggableDialog() {
                   id="outlined-basic"
                   label="Password"
                   variant="outlined"
+                  type="password"
+                  value={password}
+                  onChange={handlePasswordChange}
                 />
               </div>
             </div>
@@ -73,9 +97,9 @@ export default function DraggableDialog() {
           <Button autoFocus onClick={handleClose}>
             Cancel
           </Button>
-          <Button onClick={handleClose}>Subscribe</Button>
+          <Button onClick={handleSubmit}>LogIn</Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </Fragment>
   );
 }

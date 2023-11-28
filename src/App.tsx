@@ -1,35 +1,26 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { MenuTabs } from "./Modules/HomeModule";
+import { useContext, useEffect, useState } from "react";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
-// import CurrentComponent from "./Components/currentComponent/currentcomponent";
-import DraggableDialog from "./Components/login/login";
+import FireAuthRequired from "./Authentications/firebase/Context/FireAuthRequired";
+import { FireBaseAuthContext } from "./Authentications/firebase/Context/firebase-auth-context";
+import { default as LogIn } from "./Components/login/login";
+import { MenuTabs, components } from "./Modules/HomeModule";
+import { Avatar } from "@mui/material";
+import { deepOrange } from "@mui/material/colors";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import HomeComponent from "./Components/Home/HomeComponent";
+
 const App = () => {
   const navigate = useNavigate();
-
   const { currentUser, signOut } = useContext(FireBaseAuthContext);
   const defaultRoute = MenuTabs.find((tab) => tab.index == 0);
   const [activeTab, setActiveTab] = useState(defaultRoute?.index);
-  useEffect(() => {
-    const handleSubmit = async () => {
-      try {
-        // Send the email and password to firebase
-        debugger;
-        const userCredential = await signInUser(
-          "sivanormsoft@gmail.com",
-          "Prasanth@24"
-        );
-        if (userCredential) alert("Login Successfully");
-        else alert("invalid Credentials");
-      } catch (error: any) {
-        alert("User Sign In Failed due to Error");
-      }
-    };
-    handleSubmit();
-  }, []);
 
   useEffect(() => {
-    if (!currentUser) setActiveTab(0);
+    if (!currentUser) {
+      navigate("/login");
+    }
   }, [currentUser]);
   return (
     <div className="App">
@@ -38,7 +29,17 @@ const App = () => {
           <h1 className="my-title">
             Ramanujan Academy
             <span className="profile_icon">
-              <DraggableDialog />
+              {currentUser ? (
+                <Avatar
+                  sx={{ bgcolor: deepOrange[500] }}
+                  alt="Remy Sharp"
+                  src="/broken-image.jpg"
+                >
+                  {currentUser?.email ? currentUser?.email.slice(0, 1) : "N"}
+                </Avatar>
+              ) : (
+                ""
+              )}
             </span>
           </h1>
         </div>
@@ -48,7 +49,7 @@ const App = () => {
               <li>
                 <NavLink
                   id={"Nav_" + tab.id}
-                  to={tab.path}
+                  to={tab.to}
                   className={
                     activeTab == tab.index
                       ? "menu_nav menu_nav_active"
@@ -65,13 +66,29 @@ const App = () => {
                 </NavLink>
               </li>
             ))}
-            <li onClick={signOut}>Log Out</li>
+            {currentUser ? (
+              <li onClick={signOut}>
+                <PowerSettingsNewIcon />
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </div>
       </header>
-      {(activeNav == "hm" && <HomeComponent></HomeComponent>) ||
-        (activeNav == "crs" && <CoursesComponent></CoursesComponent>) ||
-        (activeNav == "gl" && <GalleryComponent></GalleryComponent>)}
+      <Routes>
+        {components.map((item) =>
+          item.isReqAuth ? (
+            <Route
+              path={item.path}
+              element={<FireAuthRequired>{item.component}</FireAuthRequired>}
+            ></Route>
+          ) : (
+            <Route path={item.path} element={item.component}></Route>
+          )
+        )}
+        <Route path="*" element={<LogIn />} />
+      </Routes>
     </div>
   );
 };

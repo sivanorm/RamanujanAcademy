@@ -10,7 +10,11 @@ function FireAuthRequired({ children }: { children: JSX.Element }) {
     // Redirect the user to the home page.
     // Please! Close the mustache {{}}
     return (
-      <Navigate to="/RamanujanAcademy" state={{ from: location }} replace />
+      <Navigate
+        to="/RamanujanAcademy/login"
+        state={{ from: location }}
+        replace
+      />
     );
   }
 

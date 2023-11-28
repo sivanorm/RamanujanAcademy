@@ -32,7 +32,7 @@ export const FireBaseAuthProvider = ({ children }: Props) => {
   const signOut = () => {
     SignOutUser();
     setCurrentUser(null);
-    navigate("/");
+    navigate("/login");
   };
 
   const value = {

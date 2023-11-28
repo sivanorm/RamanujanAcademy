@@ -1,48 +1,46 @@
+import Course from "../Components/CourseModule/Course";
 import CoursesComponent from "../Components/Courses/CoursesComponent";
 import GalleryComponent from "../Components/Gallery/GalleryComponent";
 import HomeComponent from "../Components/Home/HomeComponent";
+import LogIn from "../Components/login/login";
 
-export const components = [<HomeComponent />, <CoursesComponent />];
+export const components = [
+  { path: "/", isReqAuth: false, component: <HomeComponent /> },
+  { path: "gallery", isReqAuth: true, component: <GalleryComponent /> },
+  { path: "courses", isReqAuth: true, component: <CoursesComponent /> },
+  { path: "course", isReqAuth: true, component: <Course /> },
+  { path: "login", isReqAuth: false, component: <LogIn /> },
+];
 
 export const MenuTabs = [
   {
     id: 1,
     index: 0,
     name: "Home",
-    path: "",
-    isReqAuth: false,
-    component: <HomeComponent />,
+    to: "/",
   },
   {
     id: 2,
     index: 1,
     name: "Gallery",
-    path: "gallery",
-    isReqAuth: false,
-    component: <GalleryComponent />,
+    to: "gallery",
   },
   {
     id: 3,
     index: 2,
     name: "Courses",
-    path: "courses",
-    isReqAuth: true,
-    component: <CoursesComponent />,
+    to: "courses",
   },
   {
     id: 4,
     index: 3,
     name: "About",
-    path: "about",
-    isReqAuth: false,
-    component: <HomeComponent />,
+    to: "about",
   },
   {
     id: 5,
     index: 4,
     name: "Contact",
-    path: "contact",
-    isReqAuth: false,
-    component: <HomeComponent />,
+    to: "contact",
   },
 ];

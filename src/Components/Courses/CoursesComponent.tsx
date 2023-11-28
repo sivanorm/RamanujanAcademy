@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
 import "./CoursesComponent.css";
-import CurrentComponent from "../currentComponent/currentcomponent";
+import CurrentComponent from "../CourseModule/Course";
 import { BrowserRouter, Route } from "react-router-dom";
 export default function CoursesComponent() {
   return (
@@ -19,10 +19,10 @@ export default function CoursesComponent() {
   );
 }
 
-function handleClick(){
+function handleClick() {
   <BrowserRouter>
     <Route Component={CurrentComponent}></Route>
-  </BrowserRouter>
+  </BrowserRouter>;
 }
 
 function Courses() {
@@ -40,7 +40,6 @@ function Courses() {
     };
     fetchData();
   }, []);
-
 
   return (
     <div className="container">
