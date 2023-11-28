@@ -2,7 +2,7 @@ import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Avatar } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import FireAuthRequired from "./Authentications/firebase/Context/FireAuthRequired";

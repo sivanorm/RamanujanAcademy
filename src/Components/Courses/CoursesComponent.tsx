@@ -1,10 +1,9 @@
 import { Avatar, Rating, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
 import "./CoursesComponent.css";
-import CurrentComponent from "../CourseModule/Course";
-import { BrowserRouter, Route, useNavigate } from "react-router-dom";
 export default function CoursesComponent() {
   return (
     <div className="courses_div">
