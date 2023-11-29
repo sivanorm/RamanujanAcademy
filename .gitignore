@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 #secrets
-fire-config.ts
+# fire-config.ts
