@@ -8,7 +8,7 @@ import Paper, { PaperProps } from "@mui/material/Paper";
 import React, { Fragment, useState } from "react";
 import Draggable from "react-draggable";
 import { useNavigate } from "react-router-dom";
-import { signInUser } from "../../Authentications/firebase/firebase";
+import { CreateUser } from "../../Authentications/firebase/firebase";
 
 function PaperComponent(props: PaperProps) {
   return (
@@ -21,7 +21,7 @@ function PaperComponent(props: PaperProps) {
   );
 }
 
-export default function LogIn() {
+export default function SignUp() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [username, setUsername] = useState("");
@@ -36,21 +36,19 @@ export default function LogIn() {
   };
 
   const handleSubmit = async () => {
+    debugger;
     try {
-      // Now you can use 'username' and 'password' in your signInUser function
-      debugger;
-      const userCredential = await signInUser(username, password);
-      if (userCredential) {
-        navigate("/");
-      } else alert("Invalid Credentials");
+      await CreateUser(username, password).then((response) => {
+        response?.user.uid && navigate("/");
+      });
     } catch (error: any) {
-      alert("User Sign In Failed due to Error");
+      alert("User Registration  Failed due to Error");
     }
   };
 
   const handleClose = () => {
     setOpen(false);
-    navigate("/signup");
+    navigate("/");
   };
   return (
     <Fragment>
@@ -64,7 +62,7 @@ export default function LogIn() {
         className="login_popup"
       >
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          Login
+          Sign Up
         </DialogTitle>
         <DialogContent>
           <div className="container-fluid">
@@ -95,9 +93,9 @@ export default function LogIn() {
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Sign Up
+            Cancel
           </Button>
-          <Button onClick={handleSubmit}>LogIn</Button>
+          <Button onClick={handleSubmit}>Sign up</Button>
         </DialogActions>
       </Dialog>
     </Fragment>

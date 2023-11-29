@@ -2,6 +2,7 @@ import Course from "../Components/CourseModule/Course";
 import CoursesComponent from "../Components/Courses/CoursesComponent";
 import GalleryComponent from "../Components/Gallery/GalleryComponent";
 import HomeComponent from "../Components/Home/HomeComponent";
+import SignUp from "../Components/Signup/Signup";
 import LogIn from "../Components/login/login";
 
 export const components = [
@@ -10,6 +11,7 @@ export const components = [
   { path: "courses", isReqAuth: true, component: <CoursesComponent /> },
   { path: "course", isReqAuth: true, component: <Course /> },
   { path: "login", isReqAuth: false, component: <LogIn /> },
+  { path: "signup", isReqAuth: false, component: <SignUp /> },
 ];
 
 export const MenuTabs = [

@@ -32,7 +32,9 @@ const App = () => {
                   alt="Remy Sharp"
                   src="/broken-image.jpg"
                 >
-                  {currentUser?.email ? currentUser?.email.slice(0, 1) : "N"}
+                  {currentUser?.email
+                    ? currentUser?.email.slice(0, 1).toLocaleUpperCase()
+                    : "N"}
                 </Avatar>
               ) : (
                 ""
