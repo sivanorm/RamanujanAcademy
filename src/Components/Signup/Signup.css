@@ -1,0 +1,19 @@
+.ac_circle, .ac_circle svg{
+    font-size: 40px;
+    text-align: center;
+}
+.sign_up{
+    background-color: #56566a !important;
+    color: #fff !important;
+}
+.cancle {
+    background-color: rgb(255, 89, 0) !important;
+    color: #fff !important;
+}
+.MuiButtonBase-root{
+    border-radius: 4px !important;
+    padding: 5px 20px !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    font-family: verdana !important;
+}

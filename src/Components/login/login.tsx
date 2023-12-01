@@ -51,6 +51,7 @@ export default function LogIn() {
   const handleClose = () => {
     setOpen(false);
     navigate("/signup");
+    navigate("/signup");
   };
   return (
     <Fragment>

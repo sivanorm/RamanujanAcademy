@@ -7,6 +7,9 @@ export const HomeServices = {
     return images;
     // return apiService.get("movies/family");
   },
+  GetSampleGallery: () => {
+    return apiService.get("movies/family");
+  },
   GetDemos: () => {
     return apiService.get("movies/classic");
   },

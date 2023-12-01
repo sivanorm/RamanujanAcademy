@@ -45,10 +45,4 @@ export const MenuTabs = [
     name: "Contact",
     to: "contact",
   },
-  {
-    id: 5,
-    index: 4,
-    name: "Crud",
-    to: "crud",
-  },
 ];
