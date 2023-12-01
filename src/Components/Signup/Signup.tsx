@@ -9,6 +9,7 @@ import React, { Fragment, useState } from "react";
 import Draggable from "react-draggable";
 import { useNavigate } from "react-router-dom";
 import { CreateUser } from "../../Authentications/firebase/firebase";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./Signup.css";
 
 function PaperComponent(props: PaperProps) {
@@ -62,6 +63,9 @@ export default function SignUp() {
         aria-labelledby="draggable-dialog-title"
         className="login_popup"
       >
+        <i className="ac_circle">
+          <AccountCircleIcon />
+        </i>
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
           Sign Up
         </DialogTitle>
@@ -92,11 +96,13 @@ export default function SignUp() {
             </div>
           </div>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+        <DialogActions className="d-flex justify-content-center">
+          <Button autoFocus onClick={handleClose} className="cancle mb-4">
             Cancel
           </Button>
-          <Button onClick={handleSubmit}>Sign up</Button>
+          <Button onClick={handleSubmit} className="sign_up mb-4">
+            Sign up
+          </Button>
         </DialogActions>
       </Dialog>
     </Fragment>
