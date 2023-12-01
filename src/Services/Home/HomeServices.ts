@@ -1,9 +1,11 @@
+import { GetAllImages } from "../FireServices/FireServices";
 import apiService from "../Services";
 
 export const HomeServices = {
   GetGallery: () => {
-    debugger;
-    return apiService.get("movies/family");
+    const images = GetAllImages();
+    return images;
+    // return apiService.get("movies/family");
   },
   GetDemos: () => {
     return apiService.get("movies/classic");

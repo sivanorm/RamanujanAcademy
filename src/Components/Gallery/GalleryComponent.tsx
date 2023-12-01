@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
+import { Images } from "../../Services/FireServices/FireServices";
+import ApiResponse from "../../Services/Common/Result";
 
 function Gallery() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<ApiResponse<Images[]>>();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -15,10 +17,14 @@ function Gallery() {
     };
     fetchData();
   }, []);
-  const demolist = data?.map((d: any) => (
+  const demolist = data?.responseData?.map((d: any) => (
     <div className="col-md-3 p-2" key={d?.id}>
-      <div>{d?.title}</div>
-      <img src={d?.posterURL} alt="title" />
+      <div>{d?.img_name}</div>
+      <img
+        src={d?.img_url}
+        alt="title"
+        style={{ width: "100px", height: "100px" }}
+      />
     </div>
   ));
 

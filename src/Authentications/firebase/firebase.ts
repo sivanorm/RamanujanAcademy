@@ -9,9 +9,11 @@ import {
   signOut,
 } from "firebase/auth";
 import { config as Fireconfig } from "./fire-config";
+import { getFirestore } from "firebase/firestore";
 
 const app = initializeApp(Fireconfig);
 const auth = getAuth(app);
+export const db = getFirestore(app);
 
 export const signInUser = async (email: string, password: string) => {
   if (!email && !password) return;
