@@ -2,7 +2,7 @@ import ApiResponse, { ResponseType } from "../Common/Result";
 import { FireHttp } from "../Common/FireServices/DBFireController";
 
 export interface Images {
-  id: string;
+  id?: string;
   img_name: string;
   base64Str?: string;
   img_url: string;

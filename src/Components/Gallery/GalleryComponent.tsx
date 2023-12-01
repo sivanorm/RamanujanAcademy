@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
-import { Images } from "../../Services/Home/GalaryServices";
+import "./GalleryComponent.css";
+import { AddNewImage, Images } from "../../Services/Home/GalaryServices";
 import ApiResponse from "../../Services/Common/Result";
 
 function Gallery() {
@@ -9,8 +10,18 @@ function Gallery() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await HomeServices.GetSampleGallery();
+        const result = await HomeServices.GetGallery();
         setData(result);
+        console.log(result);
+        // result.responseData.map((item: any) => {
+        //   const image: Images = {
+        //     base64Str: "",
+        //     img_name: item.img_name,
+        //     img_url: item.img_url,
+        //   };
+        //   const response = AddNewImage(image);
+        //   console.log(response);
+        // });
       } catch (error) {
         console.error(error);
       }
@@ -19,12 +30,12 @@ function Gallery() {
   }, []);
   const demolist = data?.responseData?.map((d: any) => (
     <div className="col-md-3 p-2" key={d?.id}>
-      <div>{d?.img_name}</div>
-      <img
-        src={d?.img_url}
-        alt="title"
-        style={{ width: "100px", height: "100px" }}
-      />
+      <div className="gallery">
+        <div className="gallery_imgs">
+          <img src={d?.img_url} alt="title" />
+        </div>
+        <p className="gallery_title">{d?.img_name}</p>
+      </div>
     </div>
   ));
 
