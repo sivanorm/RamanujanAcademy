@@ -9,6 +9,7 @@ import React, { Fragment, useState } from "react";
 import Draggable from "react-draggable";
 import { useNavigate } from "react-router-dom";
 import { signInUser } from "../../Authentications/firebase/firebase";
+import "./login.css";
 
 function PaperComponent(props: PaperProps) {
   return (

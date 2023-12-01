@@ -1,35 +1,35 @@
-
 .login_popup .MuiDialog-paper {
-    max-width: 35%;
+  max-width: 35%;
 }
-.login_popup .MuiTypography-h6{
-    /* background-color: #56566a; */
-    padding: 0px;
-    text-align: center;
+.login_popup .MuiTypography-h6 {
+  /* background-color: #56566a; */
+  padding: 0px;
+  text-align: center;
 }
-.login_popup .MuiDialogContent-root{
-    padding: 20px !important;
+.login_popup .MuiDialogContent-root {
+  padding: 20px !important;
 }
-.login_popup .MuiFormControl-root{
-    width: 100%;
-    margin-top: 20px;
+.login_popup .MuiFormControl-root {
+  width: 100%;
+  margin-top: 20px;
 }
-.sign_up{
-    background-color: #56566a !important;
-    color: #fff !important;
+.sign_up {
+  background-color: #56566a !important;
+  color: #fff !important;
 }
 .login {
-    background-color: #027713 !important;
-    color: #fff !important;
+  background-color: #027713 !important;
+  color: #fff !important;
 }
-.MuiButtonBase-root{
-    border-radius: 4px !important;
-    padding: 5px 20px !important;
-    font-size: 11px !important;
-    font-weight: bold !important;
-    font-family: verdana !important;
+.MuiButtonBase-root {
+  border-radius: 4px !important;
+  padding: 5px 20px !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  font-family: verdana !important;
 }
-.ac_circle, .ac_circle svg{
-    font-size: 40px;
-    text-align: center;
+.ac_circle,
+.ac_circle svg {
+  font-size: 40px;
+  text-align: center;
 }
