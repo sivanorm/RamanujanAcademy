@@ -1,4 +1,4 @@
-import { GetAllImages } from "../FireServices/FireServices";
+import { GetAllImages } from "./GalaryServices";
 import apiService from "../Services";
 
 export const HomeServices = {

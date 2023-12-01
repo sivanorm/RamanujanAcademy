@@ -6,7 +6,7 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../Authentications/firebase/firebase";
+import { db } from "../../../Authentications/firebase/firebase";
 
 export const FireHttp = {
   Get: async (collectionName: string) => {
@@ -18,7 +18,7 @@ export const FireHttp = {
   Put: async (collectionName: string, data: any) => {
     return await updateDoc(doc(db, collectionName, data.id), data);
   },
-  Delete: async (collectionName: string, id: string) => {
-    return await deleteDoc(doc(db, collectionName, id));
+  Delete: async (collectionName: string, data: any) => {
+    return await deleteDoc(doc(db, collectionName, data.id));
   },
 };

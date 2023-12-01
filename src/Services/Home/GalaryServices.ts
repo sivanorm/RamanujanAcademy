@@ -1,5 +1,5 @@
 import ApiResponse, { ResponseType } from "../Common/Result";
-import { FireHttp } from "./DBFireController";
+import { FireHttp } from "../Common/FireServices/DBFireController";
 
 export interface Images {
   id: string;
@@ -39,7 +39,7 @@ export async function AddNewImage(image: Images): Promise<ApiResponse<Images>> {
     image.id = response.id;
     const apiResponse: ApiResponse<Images> = {
       responseType: ResponseType.Success,
-      responseDescription: "Data retrieved successfully",
+      responseDescription: "Saved successfully",
       responseData: image,
     };
 
@@ -57,22 +57,41 @@ export async function AddNewImage(image: Images): Promise<ApiResponse<Images>> {
 }
 
 export async function UpdateImage(image: Images): Promise<ApiResponse<Images>> {
-  await FireHttp.Put("images", image)
-    .then((response) => {
-      const apiResponse: ApiResponse<Images> = {
-        responseType: ResponseType.Success,
-        responseDescription: "Data retrieved successfully",
-        responseData: image,
-      };
-      return apiResponse;
-    })
-    .catch((error) => {
-      image.id = "0";
-      const errorResponse: ApiResponse<Images> = {
-        responseType: ResponseType.Error,
-        responseDescription: error.message,
-        responseData: image,
-      };
-      return errorResponse;
-    });
+  try {
+    await FireHttp.Put("images", image);
+    const apiResponse: ApiResponse<Images> = {
+      responseType: ResponseType.Success,
+      responseDescription: "Updated successfully",
+      responseData: image,
+    };
+    return apiResponse;
+  } catch (error: any) {
+    image.id = "0";
+    const errorResponse: ApiResponse<Images> = {
+      responseType: ResponseType.Error,
+      responseDescription: error?.message,
+      responseData: image,
+    };
+    return errorResponse;
+  }
+}
+
+export async function DeleteImage(image: Images): Promise<ApiResponse<Images>> {
+  try {
+    await FireHttp.Delete("images", image);
+    const apiResponse: ApiResponse<Images> = {
+      responseType: ResponseType.Success,
+      responseDescription: "Deleted successfully",
+      responseData: image,
+    };
+    return apiResponse;
+  } catch (error: any) {
+    image.id = "0";
+    const errorResponse: ApiResponse<Images> = {
+      responseType: ResponseType.Error,
+      responseDescription: error?.message,
+      responseData: image,
+    };
+    return errorResponse;
+  }
 }

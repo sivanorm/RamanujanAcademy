@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
-import { Images } from "../../Services/FireServices/FireServices";
+import { Images } from "../../Services/Home/GalaryServices";
 import ApiResponse from "../../Services/Common/Result";
 
 function Gallery() {
@@ -9,7 +9,7 @@ function Gallery() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await HomeServices.GetGallery();
+        const result = await HomeServices.GetSampleGallery();
         setData(result);
       } catch (error) {
         console.error(error);
