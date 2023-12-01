@@ -23,7 +23,8 @@
 }
 .thumbnail_div {
   width: 100%;
-  height: 100px;
+  height: 150px;
+  padding: 10px 0px;
 }
 .text-left {
   text-align: left;
@@ -35,8 +36,13 @@
   width: 20%;
 }
 .title_div .rating_div {
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
   width: 80%;
   text-align: left;
+}
+.thumbnail_div img{
+  width: 100%;
+  height: 100%;
+  background-position:center;
 }

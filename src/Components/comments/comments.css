@@ -1,0 +1,5 @@
+.comments_div{
+    display: flex;
+    align-items: baseline;
+    padding: 5px;
+}

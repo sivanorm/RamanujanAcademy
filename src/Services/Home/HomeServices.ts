@@ -2,7 +2,6 @@ import apiService from "../Services";
 
 export const HomeServices = {
   GetGallery: () => {
-    debugger;
     return apiService.get("movies/family");
   },
   GetDemos: () => {

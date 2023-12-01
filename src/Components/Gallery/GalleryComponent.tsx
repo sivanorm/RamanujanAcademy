@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import AppButton from "../Buttons/ButtonComponent";
+import './GalleryComponent.css'
 
 function Gallery() {
   const [data, setData] = useState([]);
@@ -17,8 +18,12 @@ function Gallery() {
   }, []);
   const demolist = data?.map((d: any) => (
     <div className="col-md-3 p-2" key={d?.id}>
-      <div>{d?.title}</div>
-      <img src={d?.posterURL} alt="title" />
+      <div className="gallery">
+        <div className="gallery_imgs">
+          <img src={d?.posterURL} alt="title" />
+        </div>
+        <p className="gallery_title">{d?.title}</p>
+      </div>
     </div>
   ));
 
