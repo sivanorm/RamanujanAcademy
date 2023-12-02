@@ -16,9 +16,9 @@ export const FireHttp = {
     return await addDoc(collection(db, collectionName), data);
   },
   Put: async (collectionName: string, data: any) => {
-    return await updateDoc(doc(db, collectionName, data.id), data);
+    return await updateDoc(doc(db, collectionName, data.docId), data);
   },
-  Delete: async (collectionName: string, data: any) => {
-    return await deleteDoc(doc(db, collectionName, data.id));
+  Delete: async (collectionName: string, docId: string) => {
+    return await deleteDoc(doc(db, collectionName,docId));
   },
 };
