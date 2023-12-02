@@ -7,7 +7,7 @@ export async function GetFromFirebase<T>(
   try {
     const querySnapshot = await FireHttp.Get(collectionName);
     const imagesData: T[] = querySnapshot.docs.map((doc: any) => ({
-      id: doc.id,
+      docId: doc.id,
       ...(doc.data() as T),
     }));
     const apiResponse: ApiResponse<T[]> = {
@@ -15,7 +15,6 @@ export async function GetFromFirebase<T>(
       responseDescription: "Data retrieved successfully",
       responseData: imagesData,
     };
-
     return apiResponse;
   } catch (error: any) {
     const errorResponse: ApiResponse<T[]> = {
@@ -23,7 +22,6 @@ export async function GetFromFirebase<T>(
       responseDescription: error?.message,
       responseData: [],
     };
-
     return errorResponse;
   }
 }

@@ -2,6 +2,7 @@ import { User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { SignOutUser, userStateListener } from "../firebase";
 import { createContext, useState, useEffect, ReactNode } from "react";
+import { AppUser } from "../../../Services/Common/Result";
 
 interface Props {
   children?: ReactNode;
@@ -16,6 +17,7 @@ export const FireBaseAuthContext = createContext({
 
 export const FireBaseAuthProvider = ({ children }: Props) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [userData, setuserData] = useState<AppUser>({} as AppUser);
   const navigate = useNavigate();
 
   useEffect(() => {

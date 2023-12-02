@@ -1,5 +1,5 @@
 import "./Course.css";
-import SkeletonComp from "../skeleton/skeleton";
+import SkeletonComp from "../skeleton/CourseSkeleton";
 import { HomeServices } from "../../Services/Home/HomeServices";
 import { useState, useEffect } from "react";
 import { Rating } from "@mui/material";
