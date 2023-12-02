@@ -19,6 +19,11 @@ const App = () => {
     signOut();
     navigate("/");
   };
+  const handleProfileClick = () => {
+    // event.preventDefault();
+    debugger;
+    navigate("/signup");
+  };
   return (
     <div className="App">
       <header className="App-header">
@@ -28,6 +33,7 @@ const App = () => {
             <span className="profile_icon">
               {currentUser ? (
                 <Avatar
+                  onClick={handleProfileClick}
                   sx={{ bgcolor: deepOrange[500] }}
                   alt="Remy Sharp"
                   src="/broken-image.jpg"

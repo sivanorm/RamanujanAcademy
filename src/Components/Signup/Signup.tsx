@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
-  TextField,
-  MenuItem,
-  Input,
-  Divider,
-  Select,
   Button,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  TextField,
 } from "@mui/material";
-import { Label, LocationOn } from "@mui/icons-material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Draggable from "react-draggable";
 import Paper, { PaperProps } from "@mui/material/Paper";
+import React, { useContext, useEffect, useState } from "react";
+import Draggable from "react-draggable";
 import { useNavigate } from "react-router-dom";
+import { FireBaseAuthContext } from "../../Authentications/firebase/Context/firebase-auth-context";
 import { CreateUser } from "../../Authentications/firebase/firebase";
+import {
+  GetAllUsers,
+  SaveUserDetails,
+  UpdateUserDetails,
+} from "../../Services/Auth/UserServices";
+import { AppUser } from "../../Services/Common/Result";
 import "./Signup.css";
 
 function PaperComponent(props: PaperProps) {
@@ -32,8 +35,10 @@ function PaperComponent(props: PaperProps) {
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(FireBaseAuthContext);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [open, setOpen] = useState(true);
-  const [username, setUsername] = useState("");
+  const [UserDocId, setUserDocId] = useState<string>("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [gender, setGender] = useState("");
@@ -45,10 +50,6 @@ const SignUp = () => {
   });
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
 
   const handleFirstNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -101,19 +102,60 @@ const SignUp = () => {
   };
 
   const handleSubmit = async () => {
+    debugger;
     try {
-      await CreateUser(username, password).then((response) => {
-        response?.user.uid && navigate("/");
+      await CreateUser(email, password).then((response) => {
+        if (response?.user.uid) {
+          navigate("/");
+        }
       });
     } catch (error: any) {
       alert("User Registration Failed due to Error");
     }
   };
-
+  const handleSave = () => {
+    const userDetails: AppUser = {
+      userId: UserDocId,
+      docId: UserDocId,
+      userFirstName: firstName,
+      userLastName: lastName,
+      dob: dob,
+      email: email,
+      gender: gender,
+      contact: [mobile.countryCode + " " + mobile.number],
+    };
+    const userDocid = UpdateUserDetails(userDetails);
+    console.log(userDocid);
+  };
   const handleClose = () => {
     setOpen(false);
     navigate("/");
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      setIsLogin(true);
+      GetAllUsers()
+        .then((data) => {
+          const userData = data.responseData[0];
+          console.log(userData);
+          console.log(userData.docId);
+          setUserDocId(userData.docId ? userData.docId : "");
+          setFirstName(userData.userFirstName);
+          setLastName(userData.userLastName);
+          setDob(userData.dob);
+          setGender(userData.gender);
+          setEmail(userData.email);
+          setMobile({
+            countryCode: userData.contact[0].split(" ")[0],
+            number: userData.contact[0].split(" ")[1],
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [currentUser]);
 
   return (
     <>
@@ -130,7 +172,7 @@ const SignUp = () => {
           <AccountCircleIcon />
         </i>
         <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-          Sign Up
+          {isLogin ? "User Details" : " Sign Up"}
         </DialogTitle>
         <DialogContent>
           <div className="container-fluid">
@@ -179,16 +221,7 @@ const SignUp = () => {
                 </TextField>
               </div>
             </div>
-            <div className="row mb-2">
-              <div className="col-md-12">
-                <TextField
-                  id="outlined-basic"
-                  placeholder="Email"
-                  value={email}
-                  onChange={handleEmailChange}
-                />
-              </div>
-            </div>
+
             <div className="row mb-2">
               <div className="col-md-6">
                 <TextField
@@ -218,10 +251,9 @@ const SignUp = () => {
               <div className="col-md-12">
                 <TextField
                   id="outlined-basic"
-                  label="Username"
-                  variant="outlined"
-                  value={username}
-                  onChange={handleUsernameChange}
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleEmailChange}
                 />
               </div>
             </div>
@@ -253,8 +285,11 @@ const SignUp = () => {
           <Button autoFocus onClick={handleClose} className="cancle mb-4">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} className="sign_up mb-4">
-            Sign up
+          <Button
+            onClick={isLogin ? handleSave : handleSubmit}
+            className={isLogin ? "update mb-4" : "sign_up mb-4"}
+          >
+            {isLogin ? "Save" : "Sign up"}
           </Button>
         </DialogActions>
       </Dialog>

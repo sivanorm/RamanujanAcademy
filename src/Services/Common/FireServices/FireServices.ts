@@ -10,6 +10,7 @@ export async function GetFromFirebase<T>(
       docId: doc.id,
       ...(doc.data() as T),
     }));
+
     const apiResponse: ApiResponse<T[]> = {
       responseType: ResponseType.Success,
       responseDescription: "Data retrieved successfully",

@@ -15,10 +15,11 @@ export interface AppUser {
   userLastName: string;
   email: string;
   contact: string[];
-  profileImage: string;
-  userId: string;
-  userRoles: string[];
+  profileImage?: string;
+  userId?: string;
+  userRoles?: string[];
   dob: string;
   gender: string;
-  authToken: string;
+  authToken?: string;
+  docId?: string;
 }
