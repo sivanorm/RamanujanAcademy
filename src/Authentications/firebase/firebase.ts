@@ -7,12 +7,14 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateEmail,
+  updatePassword,
 } from "firebase/auth";
-import { config as Fireconfig } from "./fire-config";
 import { getFirestore } from "firebase/firestore";
+import { config as Fireconfig } from "./fire-config";
 
 const app = initializeApp(Fireconfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 export const signInUser = async (email: string, password: string) => {

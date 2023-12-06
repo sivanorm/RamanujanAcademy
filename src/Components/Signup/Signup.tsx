@@ -16,7 +16,6 @@ import { FireBaseAuthContext } from "../../Authentications/firebase/Context/fire
 import { CreateUser } from "../../Authentications/firebase/firebase";
 import {
   GetAllUsers,
-  SaveUserDetails,
   UpdateUserDetails,
 } from "../../Services/Auth/UserServices";
 import { AppUser } from "../../Services/Common/Result";
@@ -124,8 +123,15 @@ const SignUp = () => {
       gender: gender,
       contact: [mobile.countryCode + " " + mobile.number],
     };
-    const userDocid = UpdateUserDetails(userDetails);
-    console.log(userDocid);
+    const response = UpdateUserDetails(userDetails);
+    console.log(response);
+    response
+      .then((result) => {
+        result.responseType == "SUCCESS" && alert(result.responseDescription);
+      })
+      .catch((error) => {
+        alert(error.responseDescription);
+      });
   };
   const handleClose = () => {
     setOpen(false);
@@ -226,15 +232,6 @@ const SignUp = () => {
               <div className="col-md-6">
                 <TextField
                   id="outlined-basic"
-                  label="Mobile"
-                  variant="outlined"
-                  value={mobile.number}
-                  onChange={handleMobileNumberChange}
-                />
-              </div>
-              <div className="col-md-6">
-                <TextField
-                  id="outlined-basic"
                   select
                   label="Country Code"
                   variant="outlined"
@@ -242,9 +239,21 @@ const SignUp = () => {
                   onChange={handleMobileCountryCodeChange}
                 >
                   <MenuItem value="+1">+1</MenuItem>
-                  <MenuItem value="+91">+91</MenuItem>
+                  <MenuItem value="+91">India</MenuItem>
+                  <MenuItem value="+21">+21</MenuItem>
+                  <MenuItem value="+92">Japan</MenuItem>
+                  <MenuItem value="+31">India</MenuItem>
                   {/* Add more country codes as needed */}
                 </TextField>
+              </div>
+              <div className="col-md-6">
+                <TextField
+                  id="outlined-basic"
+                  label="Mobile"
+                  variant="outlined"
+                  value={mobile.number}
+                  onChange={handleMobileNumberChange}
+                />
               </div>
             </div>
             <div className="row mb-2">
