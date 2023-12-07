@@ -7,8 +7,6 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
-  updateEmail,
-  updatePassword,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { config as Fireconfig } from "./fire-config";

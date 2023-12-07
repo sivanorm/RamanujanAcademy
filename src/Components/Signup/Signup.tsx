@@ -13,12 +13,12 @@ import React, { useContext, useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import { useNavigate } from "react-router-dom";
 import { FireBaseAuthContext } from "../../Authentications/firebase/Context/firebase-auth-context";
-import { CreateUser } from "../../Authentications/firebase/firebase";
+import { UserDetailsDTO } from "../../DTOs/Users/UserDetailsDTO";
 import {
-  GetAllUsers,
-  UpdateUserDetails,
-} from "../../Services/Auth/UserServices";
-import { AppUser } from "../../Services/Common/Result";
+  GetUser,
+  SaveUser,
+  UpdateUser,
+} from "../../Services/Users/UserServices";
 import "./Signup.css";
 
 function PaperComponent(props: PaperProps) {
@@ -33,97 +33,40 @@ function PaperComponent(props: PaperProps) {
 }
 
 const SignUp = () => {
+  var userDetails = new UserDetailsDTO();
   const navigate = useNavigate();
   const { currentUser } = useContext(FireBaseAuthContext);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [open, setOpen] = useState(true);
-  const [UserDocId, setUserDocId] = useState<string>("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [dob, setDob] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState({
-    countryCode: "+91",
-    number: "",
-  });
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [userData, setUserData] = useState<UserDetailsDTO>(userDetails);
 
-  const handleFirstNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setFirstName(event.target.value);
-  };
-
-  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLastName(event.target.value);
-  };
-
-  const handleGenderChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setGender(event.target.value as string);
-  };
-
-  const handleDobChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDob(event.target.value);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
-
-  const handleMobileCountryCodeChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setMobile({
-      ...mobile,
-      countryCode: event.target.value as string,
-    });
-  };
-
-  const handleMobileNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setMobile({
-      ...mobile,
-      number: event.target.value,
-    });
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
-
-  const handleConfirmPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setConfirmPassword(event.target.value);
-  };
-
-  const handleSubmit = async () => {
-    debugger;
-    try {
-      await CreateUser(email, password).then((response) => {
-        if (response?.user.uid) {
-          navigate("/");
-        }
+  //Check Current User Exists or not
+  useEffect(() => {
+    if (currentUser && currentUser.uid) {
+      setIsLogin(true);
+      GetUser<UserDetailsDTO>(currentUser.uid).then((user) => {
+        userDetails = user.responseData[0];
+        setUserData(userDetails);
       });
-    } catch (error: any) {
-      alert("User Registration Failed due to Error");
+    } else {
+      setIsLogin(false);
     }
+  }, [currentUser]);
+
+  //Creating New User
+  const handleSubmit = async () => {
+    SaveUser(userDetails)
+      .then((response) => {
+        alert(response.responseDescription);
+      })
+      .catch((error) => {
+        alert(error.responseDescription);
+      });
   };
-  const handleSave = () => {
-    const userDetails: AppUser = {
-      userId: UserDocId,
-      docId: UserDocId,
-      userFirstName: firstName,
-      userLastName: lastName,
-      dob: dob,
-      email: email,
-      gender: gender,
-      contact: [mobile.countryCode + " " + mobile.number],
-    };
-    const response = UpdateUserDetails(userDetails);
+
+  //To update user data
+  const handleUpdateUser = () => {
+    const response = UpdateUser(userDetails);
     console.log(response);
     response
       .then((result) => {
@@ -133,35 +76,60 @@ const SignUp = () => {
         alert(error.responseDescription);
       });
   };
+
   const handleClose = () => {
     setOpen(false);
     navigate("/");
   };
 
-  useEffect(() => {
-    if (currentUser) {
-      setIsLogin(true);
-      GetAllUsers()
-        .then((data) => {
-          const userData = data.responseData[0];
-          console.log(userData);
-          console.log(userData.docId);
-          setUserDocId(userData.docId ? userData.docId : "");
-          setFirstName(userData.userFirstName);
-          setLastName(userData.userLastName);
-          setDob(userData.dob);
-          setGender(userData.gender);
-          setEmail(userData.email);
-          setMobile({
-            countryCode: userData.contact[0].split(" ")[0],
-            number: userData.contact[0].split(" ")[1],
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, [currentUser]);
+  const handleFirstNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    debugger;
+    userDetails.firstName = event.target.value;
+    setUserData(userDetails);
+  };
+
+  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    userDetails.lastName = event.target.value;
+  };
+
+  const handleGenderChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    userDetails.gender = event.target.value;
+  };
+
+  const handleDobChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    userDetails.dob = new Date(event.target.value);
+  };
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    userDetails.email = event.target.value;
+    setUserData(userDetails);
+  };
+
+  const handleMobileCountryCodeChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    // userDetails.phoneNumber = event.target.value;
+    console.log(event.target.value);
+  };
+
+  const handleMobileNumberChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    userDetails.phoneNumber = event.target.value;
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    userDetails.password = event.target.value;
+    setUserData(userDetails);
+  };
+
+  const handleConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    userDetails.password = event.target.value;
+  };
 
   return (
     <>
@@ -188,7 +156,7 @@ const SignUp = () => {
                   id="outlined-basic"
                   label="First Name"
                   variant="outlined"
-                  value={firstName}
+                  value={userData.firstName}
                   onChange={handleFirstNameChange}
                 />
               </div>
@@ -197,7 +165,7 @@ const SignUp = () => {
                   id="outlined-basic"
                   label="Last Name"
                   variant="outlined"
-                  value={lastName}
+                  value={userData.lastName}
                   onChange={handleLastNameChange}
                 />
               </div>
@@ -208,7 +176,7 @@ const SignUp = () => {
                   id="outlined-basic"
                   label="Date of Birth"
                   variant="outlined"
-                  value={dob}
+                  value={userData.dob}
                   onChange={handleDobChange}
                 />
               </div>
@@ -218,7 +186,7 @@ const SignUp = () => {
                   select
                   label="Gender"
                   variant="outlined"
-                  value={gender}
+                  value={userData.gender}
                   onChange={handleGenderChange}
                 >
                   <MenuItem value="male">Male</MenuItem>
@@ -235,7 +203,7 @@ const SignUp = () => {
                   select
                   label="Country Code"
                   variant="outlined"
-                  value={mobile.countryCode}
+                  // value={userData.firstName}
                   onChange={handleMobileCountryCodeChange}
                 >
                   <MenuItem value="+1">+1</MenuItem>
@@ -243,7 +211,6 @@ const SignUp = () => {
                   <MenuItem value="+21">+21</MenuItem>
                   <MenuItem value="+92">Japan</MenuItem>
                   <MenuItem value="+31">India</MenuItem>
-                  {/* Add more country codes as needed */}
                 </TextField>
               </div>
               <div className="col-md-6">
@@ -251,7 +218,7 @@ const SignUp = () => {
                   id="outlined-basic"
                   label="Mobile"
                   variant="outlined"
-                  value={mobile.number}
+                  value={userData.phoneNumber}
                   onChange={handleMobileNumberChange}
                 />
               </div>
@@ -261,7 +228,7 @@ const SignUp = () => {
                 <TextField
                   id="outlined-basic"
                   placeholder="Email"
-                  value={email}
+                  value={userData.email}
                   onChange={handleEmailChange}
                 />
               </div>
@@ -273,7 +240,7 @@ const SignUp = () => {
                   label="Password"
                   variant="outlined"
                   type="password"
-                  value={password}
+                  value={userData.password}
                   onChange={handlePasswordChange}
                 />
               </div>
@@ -283,7 +250,6 @@ const SignUp = () => {
                   label="Confirm Password"
                   variant="outlined"
                   type="password"
-                  value={confirmPassword}
                   onChange={handleConfirmPasswordChange}
                 />
               </div>
@@ -295,7 +261,7 @@ const SignUp = () => {
             Cancel
           </Button>
           <Button
-            onClick={isLogin ? handleSave : handleSubmit}
+            onClick={isLogin ? handleUpdateUser : handleSubmit}
             className={isLogin ? "update mb-4" : "sign_up mb-4"}
           >
             {isLogin ? "Save" : "Sign up"}

@@ -11,15 +11,23 @@ export enum ResponseType {
 }
 
 export interface AppUser {
-  userFirstName: string;
-  userLastName: string;
-  email: string;
-  contact: string[];
-  profileImage?: string;
-  userId?: string;
+  userId: string;
+  firstName?: string;
+  lastName?: string;
+  gender?: string;
+  dob?: Date;
+  email?: string;
+  phoneNumber?: number;
+  address1?: string;
+  address2?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+  profileImageUrl?: string;
+  isActive?: boolean;
   userRoles?: string[];
-  dob: string;
-  gender: string;
-  authToken?: string;
-  docId?: string;
+  isLocked?: boolean;
+  loginAtempts?: number;
+  token?: string;
 }

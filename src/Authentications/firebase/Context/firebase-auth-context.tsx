@@ -2,13 +2,17 @@ import { User } from "firebase/auth";
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SignOutUser, userStateListener } from "../firebase";
+import {
+  AppUserConfig,
+  GetAppUserConfig,
+} from "../../../Services/Auth/AppUserConfig";
 
 interface Props {
   children?: ReactNode;
 }
 
 export const FireBaseAuthContext = createContext({
-  // "User" comes from firebase auth-public.d.ts
+  appUserConfig: {} as AppUserConfig | null,
   currentUser: {} as User | null,
   setCurrentUser: (_user: User) => {},
   signOut: () => {},
@@ -16,12 +20,14 @@ export const FireBaseAuthContext = createContext({
 
 export const FireBaseAuthProvider = ({ children }: Props) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [appUserConfig, setUserConfig] = useState<AppUserConfig | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = userStateListener((user) => {
       if (user) {
         setCurrentUser(user);
+        setUserConfig(GetAppUserConfig(user));
       }
     });
     return unsubscribe;
@@ -32,10 +38,12 @@ export const FireBaseAuthProvider = ({ children }: Props) => {
   const signOut = () => {
     SignOutUser();
     setCurrentUser(null);
-    navigate("/login");
+    setUserConfig(null);
+    navigate("/");
   };
 
   const value = {
+    appUserConfig,
     currentUser,
     setCurrentUser,
     signOut,

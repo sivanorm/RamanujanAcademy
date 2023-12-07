@@ -52,6 +52,9 @@ export default function LogIn() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleSignUp = () => {
+    setOpen(false);
     navigate("/signup");
   };
   return (
@@ -99,7 +102,7 @@ export default function LogIn() {
           </div>
         </DialogContent>
         <DialogActions className="d-flex justify-content-center">
-          <Button autoFocus onClick={handleClose} className="sign_up mb-4">
+          <Button autoFocus onClick={handleSignUp} className="sign_up mb-4">
             Sign Up
           </Button>
           <Button onClick={handleSubmit} className="login mb-4">
