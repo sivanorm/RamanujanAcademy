@@ -1,11 +1,8 @@
-import { GetAllImages } from "./GalaryServices";
 import apiService from "../Services";
 
 export const HomeServices = {
   GetGallery: () => {
-    const images = GetAllImages();
-    return images;
-    // return apiService.get("movies/family");
+    return apiService.get("movies/family");
   },
   GetSampleGallery: () => {
     return apiService.get("movies/family");

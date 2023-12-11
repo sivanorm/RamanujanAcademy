@@ -33,29 +33,86 @@ function PaperComponent(props: PaperProps) {
 }
 
 const SignUp = () => {
-  var userDetails = new UserDetailsDTO();
   const navigate = useNavigate();
   const { currentUser } = useContext(FireBaseAuthContext);
   const [isLogin, setIsLogin] = useState<boolean>(false);
   const [open, setOpen] = useState(true);
-  const [userData, setUserData] = useState<UserDetailsDTO>(userDetails);
+  const [userData, setUserData] = useState<UserDetailsDTO>(
+    new UserDetailsDTO()
+  );
 
-  //Check Current User Exists or not
+  // Check if the current user exists
   useEffect(() => {
     if (currentUser && currentUser.uid) {
       setIsLogin(true);
       GetUser<UserDetailsDTO>(currentUser.uid).then((user) => {
-        userDetails = user.responseData[0];
-        setUserData(userDetails);
+        console.log(user.responseData[0]);
+        setUserData(user.responseData[0]);
       });
     } else {
       setIsLogin(false);
     }
   }, [currentUser]);
 
-  //Creating New User
+  // Handle first name change
+  const handleFirstNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setUserData({ ...userData, firstName: event.target.value });
+  };
+
+  // Handle last name change
+  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, lastName: event.target.value });
+  };
+
+  // Handle gender change
+  const handleGenderChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const gender = event.target.value ? event.target.value.toString() : "";
+    setUserData({ ...userData, gender: gender });
+  };
+
+  // Handle date of birth change
+  const handleDobChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, dob: event.target.value });
+  };
+
+  // Handle email change
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, email: event.target.value });
+  };
+
+  // Handle mobile country code change
+  const handleMobileCountryCodeChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    console.log(event.target.value);
+  };
+
+  // Handle mobile number change
+  const handleMobileNumberChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setUserData({ ...userData, phoneNumber: event.target.value });
+  };
+
+  // Handle password change
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserData({ ...userData, password: event.target.value });
+  };
+
+  // Handle confirm password change
+  const handleConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {};
+
+  // Handle form submission
   const handleSubmit = async () => {
-    SaveUser(userDetails)
+    if (!isValidUser()) {
+      alert("Invalid User Data");
+      return;
+    }
+    SaveUser(userData)
       .then((response) => {
         alert(response.responseDescription);
       })
@@ -64,71 +121,39 @@ const SignUp = () => {
       });
   };
 
-  //To update user data
+  // Handle user update
   const handleUpdateUser = () => {
-    const response = UpdateUser(userDetails);
-    console.log(response);
+    if (!isValidUser()) {
+      alert("Invalid User Data");
+      return;
+    }
+    const response = UpdateUser(userData);
     response
       .then((result) => {
-        result.responseType == "SUCCESS" && alert(result.responseDescription);
+        result.responseType === "SUCCESS" && alert(result.responseDescription);
       })
       .catch((error) => {
         alert(error.responseDescription);
       });
   };
+  const isValidUser = (): boolean => {
+    debugger;
+    const isValid =
+      userData.firstName !== "" &&
+      userData.lastName !== "" &&
+      userData.dob !== "" &&
+      userData.password !== "" &&
+      userData.gender !== "" &&
+      userData.phoneNumber !== "" &&
+      userData.email !== "";
 
+    return isValid;
+  };
+
+  // Handle dialog close
   const handleClose = () => {
     setOpen(false);
     navigate("/");
-  };
-
-  const handleFirstNameChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    debugger;
-    userDetails.firstName = event.target.value;
-    setUserData(userDetails);
-  };
-
-  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    userDetails.lastName = event.target.value;
-  };
-
-  const handleGenderChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    userDetails.gender = event.target.value;
-  };
-
-  const handleDobChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    userDetails.dob = new Date(event.target.value);
-  };
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    userDetails.email = event.target.value;
-    setUserData(userDetails);
-  };
-
-  const handleMobileCountryCodeChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    // userDetails.phoneNumber = event.target.value;
-    console.log(event.target.value);
-  };
-
-  const handleMobileNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    userDetails.phoneNumber = event.target.value;
-  };
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    userDetails.password = event.target.value;
-    setUserData(userDetails);
-  };
-
-  const handleConfirmPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    userDetails.password = event.target.value;
   };
 
   return (

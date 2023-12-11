@@ -1,13 +1,15 @@
 export class UserDetailsDTO {
-  docId?: string;
-  userId?: string;
+  docId: string = "";
+  userId: string = "";
   firstName: string = "";
   lastName: string = "";
-  gender: string | unknown = "";
-  dob: Date = new Date();
+  gender: string | null = "";
+  dob: string = `${new Date().getDate()}-${
+    new Date().getMonth() - 1
+  }-${new Date().getFullYear()}`;
   email: string = "";
   password: string = "";
-  phoneNumber: string | unknown = "";
+  phoneNumber: string | null = "";
   address1: string = "";
   address2: string = "";
   city: string = "";

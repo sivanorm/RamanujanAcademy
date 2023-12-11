@@ -1,11 +1,10 @@
-import ApiResponse, { ResponseType } from "../Common/Result";
-import { FireHttp } from "../Common/FireServices/DBFireController";
 import {
   DeleteFromFirebase,
   GetFromFirebase,
   SaveToFireBase,
   UpdateFireBaseDoc,
 } from "../Common/FireServices/FireServices";
+import ApiResponse from "../Common/Result";
 
 export interface Image {
   id?: string;

@@ -52,6 +52,7 @@ export default function LogIn() {
 
   const handleClose = () => {
     setOpen(false);
+    navigate("/");
   };
   const handleSignUp = () => {
     setOpen(false);
