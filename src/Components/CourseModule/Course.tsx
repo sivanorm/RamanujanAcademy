@@ -1,32 +1,30 @@
 import "./Course.css";
-import SkeletonComp from "../skeleton/skeleton";
+import SkeletonComp from "../skeleton/CourseSkeleton";
 import { HomeServices } from "../../Services/Home/HomeServices";
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 import { Rating } from "@mui/material";
 import Comments from "../comments/comments";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import StarIcon from '@mui/icons-material/Star';
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import StarIcon from "@mui/icons-material/Star";
 
 export default function CurrentComponent() {
-  const handleClick = ()=>{
-
-  }
+  const handleClick = () => {};
   const [data, setdata] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
-      try{
-        const result = await HomeServices.GetGallery();
+      try {
+        const result = await HomeServices.GetSampleGallery();
         setdata(result);
-        console.log(result)
+        console.log(result);
         setLoading(false);
-      }catch(error){
-        console.error(error)
+      } catch (error) {
+        console.error(error);
       }
     };
     fetchData();
-  })
+  });
   return (
     <>
       <div className="container-fluid">
@@ -42,48 +40,54 @@ export default function CurrentComponent() {
                   <p>Video full description</p>
                 </div>
                 <div className="col-md-3 py-2 d-flex justify-content-around">
-                   <ThumbUpIcon/>
-                   <ThumbDownIcon/>
-                   <StarIcon/>
+                  <ThumbUpIcon />
+                  <ThumbDownIcon />
+                  <StarIcon />
                 </div>
               </div>
             </div>
-            <Comments/>
+            <Comments />
           </div>
           <div className="col-md-4">
             <div className="courses_list">
               {loading
-               ?
-                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                  <SkeletonComp key={item} />
-                ))
-                :data?.map((pr: any) => (
-                  
-                  <div className="container-flid mb-2" key={pr?.id} onClick={handleClick}>
-                    <div className="row cc_list container-fluid">
-                      <div className="col-md-6" style={{padding:'8px', paddingLeft:'0px'}}>
-                        <div className="cc_thumbnail_div">
-                          <img src={pr?.posterURL} alt=""/>
+                ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                    <SkeletonComp key={item} />
+                  ))
+                : data?.map((pr: any) => (
+                    <div
+                      className="container-flid mb-2"
+                      key={pr?.id}
+                      onClick={handleClick}
+                    >
+                      <div className="row cc_list container-fluid">
+                        <div
+                          className="col-md-6"
+                          style={{ padding: "8px", paddingLeft: "0px" }}
+                        >
+                          <div className="cc_thumbnail_div">
+                            <img src={pr?.posterURL} alt="" />
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div style={{paddingTop: '15px'}}>
-                          {/* <div className="avatar_div">
+                        <div className="col-md-6">
+                          <div style={{ paddingTop: "15px" }}>
+                            {/* <div className="avatar_div">
                             <Avatar sx={{ backgroundColor: "#ff4500" }}>K</Avatar>
                           </div>
                           <div className="rating_div"> */}
                             {/* <p className="course_title">{pr.title}</p> */}
                             <p>{pr.title}</p>
-                            <Rating name="hover-feedback" className="cc_rating"/>
-                          {/* </div> */}
+                            <Rating
+                              name="hover-feedback"
+                              className="cc_rating"
+                            />
+                            {/* </div> */}
+                          </div>
                         </div>
                       </div>
+                      {/* <img src={pro?.posterURL} /> */}
                     </div>
-                    {/* <img src={pro?.posterURL} /> */}
-                  </div>
-                  
-                ))
-              }
+                  ))}
             </div>
           </div>
         </div>
