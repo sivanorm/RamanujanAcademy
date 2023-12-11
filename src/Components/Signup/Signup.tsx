@@ -104,7 +104,9 @@ const SignUp = () => {
   // Handle confirm password change
   const handleConfirmPasswordChange = (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {};
+  ) => {
+    console.log(event);
+  };
 
   // Handle form submission
   const handleSubmit = async () => {
