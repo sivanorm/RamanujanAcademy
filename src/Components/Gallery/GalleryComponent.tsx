@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FireBaseAuthContext } from "../../Authentications/firebase/Context/firebase-auth-context";
 import { ImageDTO } from "../../DTOs/Home/ImageDTO";
 import {
@@ -8,14 +9,9 @@ import {
 import AppButton from "../Buttons/ButtonComponent";
 import GalarySkeleton from "../skeleton/GalarySkeleton";
 import "./GalleryComponent.css";
-import { Navigate, useNavigate } from "react-router-dom";
-import ImageUpload from "./ImageUpload";
-
 export default function GalleryComponent() {
   const { appUserConfig } = useContext(FireBaseAuthContext);
-  const [loading, setLoading] = useState<boolean>(true);
   const [imageGalary, setImageGalary] = useState<ImageDTO[]>([]);
-  const skeletonArray = Array.from({ length: 100 }, (_, index) => index + 1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,10 +19,8 @@ export default function GalleryComponent() {
         const result = await GetAllImages(appUserConfig.userId, new Date());
         debugger;
         setImageGalary(result.responseData);
-        setLoading(false);
       } catch (error) {
         console.error(error);
-        setLoading(false);
       }
     };
 
@@ -51,19 +45,13 @@ export default function GalleryComponent() {
       </div>
       <div className="container">
         <div className="row">
-          {loading
-            ? skeletonArray.map((sk) => (
-                <div className="col-md-3" key={sk}>
-                  <GalarySkeleton />
-                </div>
-              ))
-            : imageGalary.map((image: ImageDTO) => (
-                <ImageCard
-                  key={image.docId}
-                  image={image}
-                  onDelete={handleDelete}
-                />
-              ))}
+          {imageGalary.map((image: ImageDTO) => (
+            <ImageCard
+              key={image.docId}
+              image={image}
+              onDelete={handleDelete}
+            />
+          ))}
         </div>
       </div>
       <div className="container-fluid">
@@ -86,28 +74,46 @@ function ImageCard({
   onDelete: (imgId: string) => void;
 }) {
   const navigate = useNavigate();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const img1 = new Image();
+    img1.src = image.img_url;
+    img1.onload = () => {
+      setLoaded(true);
+    };
+  }, [image.img_url]);
   return (
     <div className="col-md-3 p-2">
-      <div className="gallery">
-        <div className="gallery_imgs">
-          <span
+      {loaded ? (
+        <div className="gallery">
+          <div className="gallery_imgs">
+            <span
+              onClick={() => {
+                onDelete(image.docId);
+              }}
+            >
+              delete
+            </span>
+            <img
+              src={loaded ? image.img_url : ""}
+              alt={image.alt}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              loading="lazy"
+            />
+          </div>
+          <p className="gallery_title">{image.img_name}</p>
+          <h5
             onClick={() => {
-              onDelete(image.docId);
+              navigate("/imageupload", { state: { image } });
             }}
           >
-            delete
-          </span>
-          <img src={image.img_url} alt={image.img_name} />
+            Edit
+          </h5>
         </div>
-        <p className="gallery_title">{image.img_name}</p>
-        <h5
-          onClick={() => {
-            navigate("/imageupload", { state: { image } });
-          }}
-        >
-          Edit
-        </h5>
-      </div>
+      ) : (
+        <GalarySkeleton />
+      )}
     </div>
   );
 }
