@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const FireBaseAuthContext = createContext({
-  appUserConfig: {} as AppUserConfig | null,
+  appUserConfig: {} as AppUserConfig,
   currentUser: {} as User | null,
   setCurrentUser: (_user: User) => {},
   signOut: () => {},
@@ -20,25 +20,27 @@ export const FireBaseAuthContext = createContext({
 
 export const FireBaseAuthProvider = ({ children }: Props) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [appUserConfig, setUserConfig] = useState<AppUserConfig | null>(null);
+  const [appUserConfig, setUserConfig] = useState<AppUserConfig>(
+    {} as AppUserConfig
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = userStateListener((user) => {
       if (user) {
         setCurrentUser(user);
-        setUserConfig(GetAppUserConfig(user));
+        GetAppUserConfig(user).then((res) => {
+          setUserConfig(res);
+        });
       }
     });
     return unsubscribe;
   }, [setCurrentUser]);
 
-  // As soon as setting the current user to null,
-  // the user will be redirected to the home page.
   const signOut = () => {
     SignOutUser();
     setCurrentUser(null);
-    setUserConfig(null);
+    setUserConfig(new AppUserConfig());
     navigate("/");
   };
 

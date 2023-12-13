@@ -1,7 +1,15 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { CreateUser, db } from "../../Authentications/firebase/firebase";
 import { UserDetailsDTO } from "../../DTOs/Users/UserDetailsDTO";
-import { FireHttp } from "../Common/FireServices/DBFireController";
 import ApiResponse, { ResponseType } from "../Common/Result";
 
 const collectionName = "app_users";
@@ -38,16 +46,9 @@ export const SaveUser = async (
   user: UserDetailsDTO
 ): Promise<ApiResponse<string>> => {
   try {
-    // Create user and wait for the response
     const authResponse = await CreateUser(user.email, user.password);
-
-    // Set the userId in the user object
     user.userId = authResponse?.user?.uid || "";
-
-    // Save user details to Firestore
-    await FireHttp.Post(collectionName, user);
-
-    // If successful, construct the success response
+    await addDoc(collection(db, collectionName), user);
     const apiResponse: ApiResponse<string> = {
       responseType: ResponseType.Success,
       responseDescription: "Saved successfully",
@@ -56,7 +57,6 @@ export const SaveUser = async (
 
     return apiResponse;
   } catch (error) {
-    // If an error occurs during user creation or Firestore operation
     const errorResponse: ApiResponse<string> = {
       responseType: ResponseType.Error,
       responseDescription: error?.toString() || "User Details Not Saved",
@@ -71,22 +71,42 @@ export const UpdateUser = async (
   user: UserDetailsDTO
 ): Promise<ApiResponse<string>> => {
   try {
-    debugger;
-    // Update user details to Firestore
-    await FireHttp.Put(collectionName, user);
-    // If successful, construct the success response
+    await updateDoc(doc(db, collectionName, user.docId), user);
+
     const apiResponse: ApiResponse<string> = {
       responseType: ResponseType.Success,
       responseDescription: "Updated successfully",
       responseData: user.userId,
     };
+
     return apiResponse;
   } catch (error: any) {
-    // If an error occurs during user creation or Firestore operation
     const errorResponse: ApiResponse<string> = {
       responseType: ResponseType.Error,
-      responseDescription: error?.message || "User Details Not Updated",
+      responseDescription: error?.message || "User details not updated",
       responseData: "0",
+    };
+
+    return errorResponse;
+  }
+};
+
+export const DeleteUser = async (
+  userId: string
+): Promise<ApiResponse<number>> => {
+  try {
+    await deleteDoc(doc(db, collectionName, userId));
+    const apiResponse: ApiResponse<number> = {
+      responseType: ResponseType.Success,
+      responseDescription: "Deleted successfully",
+      responseData: 1,
+    };
+    return apiResponse;
+  } catch (error: any) {
+    const errorResponse: ApiResponse<number> = {
+      responseType: ResponseType.Error,
+      responseDescription: error?.message || "User Not Deleted",
+      responseData: 0,
     };
     return errorResponse;
   }

@@ -22,6 +22,7 @@ export default function CoursesComponent() {
 function Courses() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const skeletonArray = Array.from({ length: 100 }, (_, index) => index + 1);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,7 +40,7 @@ function Courses() {
     <div className="container">
       <div className="row my-courses">
         {loading
-          ? [1, 2, 3, 4, 5, 6, 7, 8]?.map((sk) => (
+          ? skeletonArray?.map((sk) => (
               <div className="col-md-3" key={sk}>
                 <CourseSkeliton />
               </div>

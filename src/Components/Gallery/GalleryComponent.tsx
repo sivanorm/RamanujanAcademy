@@ -1,33 +1,48 @@
-import { useEffect, useState } from "react";
-import ApiResponse from "../../Services/Common/Result";
-import { GetAllImages, Image } from "../../Services/Home/GalaryServices";
+import { useContext, useEffect, useState } from "react";
+import { FireBaseAuthContext } from "../../Authentications/firebase/Context/firebase-auth-context";
+import { ImageDTO } from "../../DTOs/Home/ImageDTO";
+import {
+  DeleteGalleryImage,
+  GetAllImages,
+} from "../../Services/Home/GalaryServices";
 import AppButton from "../Buttons/ButtonComponent";
 import GalarySkeleton from "../skeleton/GalarySkeleton";
 import "./GalleryComponent.css";
-
-interface ImageCardProps {
-  image: Image;
-}
+import { Navigate, useNavigate } from "react-router-dom";
+import ImageUpload from "./ImageUpload";
 
 export default function GalleryComponent() {
+  const { appUserConfig } = useContext(FireBaseAuthContext);
   const [loading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState<ApiResponse<Image[]>>();
+  const [imageGalary, setImageGalary] = useState<ImageDTO[]>([]);
+  const skeletonArray = Array.from({ length: 100 }, (_, index) => index + 1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!data) {
-          const result = await GetAllImages();
-          setData(result);
-          setLoading(false);
-          console.log(result);
-        }
+        const result = await GetAllImages(appUserConfig.userId, new Date());
+        debugger;
+        setImageGalary(result.responseData);
+        setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     };
+
     fetchData();
   }, []);
+  const handleDelete = (imageId: string): void => {
+    if (confirm("Are you sure you want to delete this image?")) {
+      DeleteGalleryImage(appUserConfig.userId, imageId).then((res) => {
+        if (res.responseType == "SUCCESS") {
+          setImageGalary((prevImages) =>
+            prevImages.filter((image) => image.docId !== imageId)
+          );
+        } else alert(res.responseDescription);
+      });
+    }
+  };
 
   return (
     <div className="demos_div">
@@ -37,13 +52,17 @@ export default function GalleryComponent() {
       <div className="container">
         <div className="row">
           {loading
-            ? [1, 2, 3, 4, 5, 6, 7, 8].map((sk) => (
+            ? skeletonArray.map((sk) => (
                 <div className="col-md-3" key={sk}>
                   <GalarySkeleton />
                 </div>
               ))
-            : data?.responseData.map((card: Image) => (
-                <ImageCard key={card.id} image={card} />
+            : imageGalary.map((image: ImageDTO) => (
+                <ImageCard
+                  key={image.docId}
+                  image={image}
+                  onDelete={handleDelete}
+                />
               ))}
         </div>
       </div>
@@ -59,14 +78,35 @@ export default function GalleryComponent() {
   );
 }
 
-function ImageCard({ image }: ImageCardProps) {
+function ImageCard({
+  image,
+  onDelete,
+}: {
+  image: ImageDTO;
+  onDelete: (imgId: string) => void;
+}) {
+  const navigate = useNavigate();
   return (
-    <div className="col-md-3 p-2" key={image.docId}>
+    <div className="col-md-3 p-2">
       <div className="gallery">
         <div className="gallery_imgs">
+          <span
+            onClick={() => {
+              onDelete(image.docId);
+            }}
+          >
+            delete
+          </span>
           <img src={image.img_url} alt={image.img_name} />
         </div>
         <p className="gallery_title">{image.img_name}</p>
+        <h5
+          onClick={() => {
+            navigate("/imageupload", { state: { image } });
+          }}
+        >
+          Edit
+        </h5>
       </div>
     </div>
   );
