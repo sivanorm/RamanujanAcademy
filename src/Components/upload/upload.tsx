@@ -6,8 +6,6 @@ import {
 } from "../../Services/Home/GalaryServices";
 import { ImageDTO } from "../../DTOs/Home/ImageDTO";
 import { useLocation } from "react-router-dom";
-import './GalleryComponent.css'
-import { TextField } from "@mui/material";
 
 function ImageUpload() {
   const { state } = useLocation();
@@ -49,51 +47,34 @@ function ImageUpload() {
   };
 
   return (
-    <div className="img_upload">
+    <div>
       <h1 className="text-center">Image Upload</h1>
-      
-      {/* <label>Image Name</label>
+      <img src={image.base64Str} alt={image.alt} />
+      <br />
+      <br />
+      <label>Image Name</label>
       <input
         type="text"
         value={image.img_name}
         onChange={(e) => setImage({ ...image, img_name: e.target.value })}
-      /> */}
-      {/* <label>Alternate text</label> */}
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-6">
-          <div className="mt-3">
-               <TextField
-                fullWidth
-                id="outlined-basic"
-                label="Image Name"
-                variant="outlined"
-                value={image.img_name}
-                onChange={(e) => setImage({ ...image, img_name: e.target.value })}
-              />
-               </div>
-              <div className="my-4">
-              <TextField
-              fullWidth
-                id="outlined-basic"
-                label="Alternate text"
-                variant="outlined"
-                value={image.alt}
-                onChange={(e) => setImage({ ...image, alt: e.target.value })}
-              />
-              </div>
-              <div className="text-center"><input type="file" name="image" onChange={handleImageChange} /></div>
-              <div className="text-center mt-3">
-                <button onClick={handleSubmit}>{!state ? "Submit" : "Update"}</button>
-              </div>
-          </div>
-          <div className="col-md-6">
-            <div className="mt-3" style={{height:'300px'}}>
-              <img src={image.base64Str} alt={image.alt} style={{width:'100%', height:'100%'}}/>
-            </div>
-          </div>
-        </div>
-      </div>
+      />
+      <br />
+      <br />
+      <br />
+      <label>Alternate text</label>
+      <input
+        type="text"
+        value={image.alt}
+        onChange={(e) => setImage({ ...image, alt: e.target.value })}
+      />
+      <br />
+      <br />
+      <br />
+      <input type="file" name="image" onChange={handleImageChange} />
+      <br />
+      <br />
+      <br />
+      <button onClick={handleSubmit}>{!state ? "Submit" : "Update"}</button>
     </div>
   );
 }

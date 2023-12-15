@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; //Navigate,
 import { FireBaseAuthContext } from "../../Authentications/firebase/Context/firebase-auth-context";
 import { ImageDTO } from "../../DTOs/Home/ImageDTO";
 import {
@@ -8,8 +9,7 @@ import {
 import AppButton from "../Buttons/ButtonComponent";
 import GalarySkeleton from "../skeleton/GalarySkeleton";
 import "./GalleryComponent.css";
-import { Navigate, useNavigate } from "react-router-dom";
-import ImageUpload from "./ImageUpload";
+// import ImageUpload from "./ImageUpload";
 
 export default function GalleryComponent() {
   const { appUserConfig } = useContext(FireBaseAuthContext);
@@ -46,8 +46,17 @@ export default function GalleryComponent() {
 
   return (
     <div className="demos_div">
-      <div className="text-center mb-5">
-        <h1>Ramanujan Academy Gallery</h1>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-10">
+            <div className="text-center mb-5">
+             <h1>Ramanujan Academy Gallery</h1>
+            </div>
+          </div>
+          <div className="col-md-2 text-center">
+            <button className="upload_btn" onClick={UploadImg}>Upload +</button>
+          </div>
+        </div>
       </div>
       <div className="container">
         <div className="row">
@@ -110,4 +119,12 @@ function ImageCard({
       </div>
     </div>
   );
+}
+
+function UploadImg(){
+  return (
+    <>
+   
+    </>
+  )
 }
